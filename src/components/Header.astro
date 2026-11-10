@@ -5,7 +5,6 @@ import { formatDateShort } from "../lib/format";
 
 const path = Astro.url.pathname;
 const isHome = path === "/";
-const isMetodologia = path.startsWith("/metodologia");
 const fecha = formatDateShort(fechaActualizacion);
 const fechaCompacta = fecha.replace(/\s\d{4}$/, "");
 ---
@@ -38,24 +37,11 @@ const fechaCompacta = fecha.replace(/\s\d{4}$/, "");
       >
         Preguntas
       </a>
-      <a
-        href="/metodologia/"
-        class:list={[
-          "rounded-full px-3.5 py-2 text-sm font-medium transition-colors",
-          isMetodologia
-            ? "bg-white text-slate-950 shadow-sm ring-1 ring-slate-200"
-            : "text-slate-600 hover:bg-white hover:text-slate-950",
-        ]}
-      >
-        Metodología
-      </a>
     </nav>
 
-    <a
-      href="/metodologia/"
-      class="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-slate-600 shadow-sm transition-colors hover:border-slate-300 hover:text-slate-950 sm:px-3 sm:text-xs"
-      title="Fecha del boletín hidrológico y metodología"
-      aria-label={`Boletín semanal del ${fecha}. Ver metodología y fuentes.`}
+    <div
+      class="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-medium text-slate-600 shadow-sm sm:px-3 sm:text-xs"
+      aria-label={`Boletín semanal del ${fecha}`}
     >
       <span class="relative flex h-2 w-2" aria-hidden="true">
         <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
@@ -64,6 +50,6 @@ const fechaCompacta = fecha.replace(/\s\d{4}$/, "");
       <span class="hidden text-slate-400 md:inline" aria-hidden="true">·</span>
       <span class="hidden whitespace-nowrap tnum sm:inline">{fecha}</span>
       <span class="whitespace-nowrap sm:hidden">{fechaCompacta}</span>
-    </a>
+    </div>
   </div>
 </header>

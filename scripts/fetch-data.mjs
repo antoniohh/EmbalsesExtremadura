@@ -183,7 +183,6 @@ async function main() {
   const siteUrl = (process.env.SITE_URL ?? 'https://embalses.antoniohorrillo.com').replace(/\/$/, '')
   const urls = [
     { loc: `${siteUrl}/`, priority: '1.0' },
-    { loc: `${siteUrl}/metodologia/`, priority: '0.5' },
     { loc: `${siteUrl}/cookies/`, priority: '0.3' },
     ...embalses.map((item) => ({ loc: `${siteUrl}/embalse/${item.slug}/`, priority: '0.8' })),
   ]

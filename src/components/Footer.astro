@@ -1,5 +1,5 @@
 ---
-import { ArrowUp, CalendarDays, Droplets, ExternalLink } from "@lucide/astro";
+import { ArrowUp, CalendarDays, Droplets } from "@lucide/astro";
 import { embalses, fechaActualizacion } from "../lib/data";
 import { formatDateLong } from "../lib/format";
 ---
@@ -7,7 +7,7 @@ import { formatDateLong } from "../lib/format";
 <footer class="mt-20 bg-abyss-950 text-slate-300">
   <div class="h-1 w-full bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-600" aria-hidden="true"></div>
   <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.4fr]">
       <div>
         <div class="flex items-center gap-3">
           <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10">
@@ -32,55 +32,17 @@ import { formatDateLong } from "../lib/format";
           <li><a href="/" class="transition-colors hover:text-white">Panel principal</a></li>
           <li><a href="/#embalses" class="transition-colors hover:text-white">Todos los embalses</a></li>
           <li><a href="/#preguntas-frecuentes" class="transition-colors hover:text-white">Preguntas frecuentes</a></li>
-          <li><a href="/metodologia/" class="transition-colors hover:text-white">Metodología y fuentes</a></li>
           <li><a href="/cookies/" class="transition-colors hover:text-white">Política de cookies</a></li>
         </ul>
       </div>
 
       <div>
-        <h2 class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300">Datos</h2>
-        <ul class="mt-4 space-y-2.5 text-sm">
-          <li>
-            <a
-              href="https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico/"
-              target="_blank"
-              rel="noreferrer"
-              class="inline-flex items-center gap-1.5 transition-colors hover:text-white"
-            >
-              Boletín del MITECO <ExternalLink class="h-3 w-3" aria-hidden="true" />
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://mapasdeembalses.es/"
-              target="_blank"
-              rel="noreferrer"
-              class="inline-flex items-center gap-1.5 transition-colors hover:text-white"
-            >
-              MapasDeEmbalses.es <ExternalLink class="h-3 w-3" aria-hidden="true" />
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://creativecommons.org/licenses/by/4.0/deed.es"
-              target="_blank"
-              rel="noreferrer"
-              class="inline-flex items-center gap-1.5 transition-colors hover:text-white"
-            >
-              Licencia CC BY 4.0 <ExternalLink class="h-3 w-3" aria-hidden="true" />
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <h2 class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300">Fuente</h2>
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300">Fuentes</h2>
         <p class="mt-4 text-xs leading-relaxed text-slate-400">
-          Datos procesados por <span class="text-slate-200">MapasDeEmbalses.es</span>. Fuente original: MITECO
-          (Boletín Hidrológico Semanal). Datos sujetos a revisión.
+          Datos procesados por <span class="text-slate-200">MapasDeEmbalses.es</span> a partir del Boletín Hidrológico Semanal del <span class="text-slate-200">MITECO</span> (CC BY 4.0). Datos oficiales sujetos a revisión.
         </p>
         <p class="mt-3 text-xs leading-relaxed text-slate-400">
-          Este panel no sustituye a los avisos oficiales de las confederaciones hidrográficas.
+          Este panel es de consulta pública y no sustituye a los avisos oficiales de las confederaciones hidrográficas.
         </p>
         <a
           href="#contenido"

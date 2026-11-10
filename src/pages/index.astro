@@ -17,7 +17,6 @@ import {
 import {
   ArrowDown,
   ArrowDownUp,
-  ArrowRight,
   CalendarDays,
   ChevronDown,
   CircleCheck,
@@ -201,13 +200,6 @@ const jsonLd = {
             >
               Ver los {total.total} embalses
               <ArrowDown class="h-4 w-4" aria-hidden="true" />
-            </a>
-            <a
-              href="/metodologia/"
-              class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:text-slate-950"
-            >
-              Cómo se calculan los datos
-              <ArrowRight class="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
 
@@ -396,13 +388,6 @@ const jsonLd = {
           variación compara la última semana disponible con la anterior. Si un dato falta, no se convierte en cero.
         </p>
       </div>
-      <a
-        href="/metodologia/"
-        class="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-blue-700 transition-colors hover:text-blue-800"
-      >
-        Leer la metodología
-        <ArrowRight class="h-4 w-4" aria-hidden="true" />
-      </a>
     </div>
   </section>
 
@@ -475,14 +460,6 @@ const jsonLd = {
               Capacidad conjunta: {formatInteger(total.capacidad)} hm³. El {leading.name} representa el{' '}
               {formatDecimal(leading.capacityShare)} % de la capacidad y el {formatDecimal(leading.share)} % del agua.
             </div>
-
-            <a
-              href="/metodologia/"
-              class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-white"
-            >
-              Cómo calculamos estas cifras
-              <ArrowRight class="h-4 w-4" aria-hidden="true" />
-            </a>
           </div>
         </div>
       </div>
@@ -520,13 +497,5 @@ const jsonLd = {
         </details>
       ))}
     </div>
-
-    <p class="mt-6 text-sm text-slate-500">
-      ¿Quieres saber cómo se calcula cada cifra?{' '}
-      <a href="/metodologia/" class="font-semibold text-blue-700 transition-colors hover:text-blue-800">
-        Lee la metodología
-      </a>
-      .
-    </p>
   </section>
 </BaseLayout>

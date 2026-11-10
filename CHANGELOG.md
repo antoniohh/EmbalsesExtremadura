@@ -2,9 +2,24 @@
 
 Todas las versiones relevantes de **Embalses de Extremadura**. El proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [1.0.2] — 2026-11-10
+
+Versión de optimización de la experiencia: eliminación de la sección y página de metodología, y saneamiento de enlaces del pie de página para alinear el proyecto con la arquitectura de *Luz Extremadura* y *Combustible Extremadura*.
+
+### Cambiado y Optimizado
+
+- **Supresión de la Página y Sección de Metodología**:
+  - Eliminada la ruta `/metodologia/` y todos los enlaces que apuntaban a ella desde portada (`index.astro`), fichas de embalses (`[slug].astro`) y cabecera (`Header.astro`).
+  - La píldora de fecha en la cabecera pasa a ser un indicador estático de estado del boletín.
+- **Simplificación del Pie de Página ([`src/components/Footer.astro`](src/components/Footer.astro))**:
+  - Eliminada la columna redundante «Datos» (enlaces externos al MITECO, MapasDeEmbalses.es y CC BY 4.0).
+  - La atribución legal y técnica de la fuente oficial se mantiene consolidada en la columna «Fuentes».
+- **Suite de Calidad ([`scripts/test.mjs`](scripts/test.mjs))**:
+  - 40 pruebas automáticas Playwright superadas (40/40).
+
 ## [1.0.1] — 2026-11-10
 
-Versión de simplificación y optimización de portada: eliminación del quiz para priorizar la rapidez de consulta y la utilidad pública.
+Versión de optimización de portada: eliminación del quiz para priorizar la rapidez de consulta y la utilidad pública.
 
 ### Cambiado y Optimizado
 
@@ -14,8 +29,6 @@ Versión de simplificación y optimización de portada: eliminación del quiz pa
   - Transición visual directa desde la distribución por cuencas hacia las preguntas frecuentes.
 - **Navegación del pie de página ([`src/components/Footer.astro`](src/components/Footer.astro))**:
   - Eliminado el enlace hacia `#reto` en la columna de exploración.
-- **Suite de Calidad ([`scripts/test.mjs`](scripts/test.mjs))**:
-  - Actualizadas las 42 pruebas automatizadas sin JS, de hidratación y responsive (42/42 superadas).
 
 ## [1.0.0] — 2026-11-10
 

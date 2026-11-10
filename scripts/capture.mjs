@@ -40,6 +40,6 @@ await capture('mobile', '/', { width: 390, height: 844 })
 await capture('user-320', '/', { width: 320, height: 900 })
 await capture('detail-desktop', '/embalse/la-serena/', { width: 1440, height: 1000 })
 await capture('detail-mobile', '/embalse/la-serena/', { width: 390, height: 844 })
-await capture('metodologia', '/metodologia/', { width: 1440, height: 1000 })
+await capture('cookies', '/cookies/', { width: 1440, height: 1000 })
 
 await browser.close()

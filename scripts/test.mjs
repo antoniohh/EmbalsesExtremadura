@@ -94,10 +94,6 @@ await page.goto(`${base}/cookies/`, { waitUntil: 'networkidle' })
 check('cookies page h1', (await page.locator('main h1').innerText()).includes('Política de Cookies'))
 check('cookies page open modal button', (await page.locator('[data-cookie-open-modal]').count()) >= 1)
 
-await page.goto(`${base}/metodologia/`, { waitUntil: 'networkidle' })
-check('methodology h1', (await page.locator('main h1').innerText()).includes('Metodología y fuentes'))
-check('methodology jsonld', (await page.locator('script[type="application/ld+json"]').count()) >= 1)
-
 await page.goto(`${base}/404.html`, { waitUntil: 'domcontentloaded' })
 check('404 page', (await page.locator('main h1').innerText()).includes('Esta página no existe'))
 

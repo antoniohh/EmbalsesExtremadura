@@ -56,4 +56,4 @@ Este documento define las reglas operativas, de arquitectura y de publicación d
 - **HTML estático primero:** Todo el contenido clave (KPIs, catálogo de 42 embalses y FAQ) debe existir en el HTML sin JavaScript para garantizar el 100 % de indexabilidad SEO y accesibilidad.
 - **Privacidad (RGPD / AEPD):** Mantener Google Consent Mode v2 con `analytics_storage: 'denied'` por defecto para el EEE en `src/layouts/BaseLayout.astro`, gestión visual mediante `src/components/CookieBanner.astro` y documentación completa en `src/pages/cookies.astro`.
 - **Instalabilidad PWA:** Mantener el banner `src/components/InstallPrompt.astro` y el Service Worker `public/sw.js` operativo para permitir la instalación en Android / Chrome móvil.
-- **Calidad obligatoria:** Cualquier cambio debe pasar `npm run check` (0 errores) y `npm run test:ui` (42 pruebas Playwright de funcionalidad y responsive sin desbordamiento horizontal a 320, 390, 768 y 1440 px).
+- **Calidad obligatoria:** Cualquier cambio debe pasar `npm run check` (0 errores) y `npm run test:ui` (40 pruebas Playwright de funcionalidad y responsive sin desbordamiento horizontal a 320, 390, 768 y 1440 px).
