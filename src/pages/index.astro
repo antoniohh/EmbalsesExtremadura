@@ -1,0 +1,563 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { ReservoirGauge } from "../components/react/ReservoirGauge";
+import { TrendBadge } from "../components/react/TrendBadge";
+import { WaterBar } from "../components/react/WaterBar";
+import { FilterableGrid } from "../components/react/FilterableGrid";
+import { EmbalseQuiz } from "../components/react/EmbalseQuiz";
+import { aggregate } from "../lib/aggregate";
+import { buildQuiz } from "../lib/quiz";
+import { embalses, embalsesResumen, totalCatalogo, fechaActualizacion } from "../lib/data";
+import { absoluteUrl, AUTHOR_NAME, AUTHOR_URL, SITE, SITE_DESCRIPTION, SITE_NAME } from "../lib/site";
+import {
+  formatDateLong,
+  formatDecimal,
+  formatHm3,
+  formatInteger,
+  formatPctCompact,
+} from "../lib/format";
+import {
+  ArrowDown,
+  ArrowDownUp,
+  ArrowRight,
+  CalendarDays,
+  ChevronDown,
+  CircleCheck,
+  CircleQuestionMark,
+  Database,
+  Droplets,
+  Info,
+  Sparkles,
+  WavesHorizontal,
+} from "@lucide/astro";
+
+const total = aggregate(embalses);
+const guadiana = aggregate(embalses.filter((item) => item.cuenca === "Guadiana"));
+const tajo = aggregate(embalses.filter((item) => item.cuenca === "Tajo"));
+const available = Math.max(0, total.capacidad - total.actual);
+const balanceTone = total.variacion > 0.0001 ? "emerald" : total.variacion < -0.0001 ? "rose" : "slate";
+const balanceSign = total.variacion > 0 ? "+" : "";
+const upShare = total.total ? (total.suben / total.total) * 100 : 0;
+const downShare = total.total ? (total.bajan / total.total) * 100 : 0;
+const subenLabel = total.suben === 1 ? "sube" : "suben";
+const bajanLabel = total.bajan === 1 ? "baja" : "bajan";
+const establesLabel = total.estables === 1 ? "sin cambio" : "sin cambios";
+const dateLabel = formatDateLong(fechaActualizacion);
+const allDates = embalses.flatMap((item) => item.historico.map((point) => point.fecha)).sort();
+const temporalCoverage = `${allDates[0]}/${fechaActualizacion}`;
+
+const byVolume = [...embalses].sort((a, b) => b.actual_hm3 - a.actual_hm3);
+const top2 = byVolume.slice(0, 2);
+const top2Volume = top2.reduce((sum, item) => sum + item.actual_hm3, 0);
+const guadianaShare = total.actual > 0 ? (guadiana.actual / total.actual) * 100 : 0;
+const tajoShare = total.actual > 0 ? (tajo.actual / total.actual) * 100 : 0;
+const top2Share = total.actual > 0 ? (top2Volume / total.actual) * 100 : 0;
+const guadianaCapacityShare = total.capacidad > 0 ? (guadiana.capacidad / total.capacidad) * 100 : 0;
+const tajoCapacityShare = total.capacidad > 0 ? (tajo.capacidad / total.capacidad) * 100 : 0;
+const guadianaLeads = guadiana.actual >= tajo.actual;
+const leading = guadianaLeads
+  ? {
+      name: "Guadiana",
+      actual: guadiana.actual,
+      share: guadianaShare,
+      capacityShare: guadianaCapacityShare,
+    }
+  : {
+      name: "Tajo",
+      actual: tajo.actual,
+      share: tajoShare,
+      capacityShare: tajoCapacityShare,
+    };
+const other = guadianaLeads
+  ? { name: "Tajo", actual: tajo.actual, share: tajoShare }
+  : { name: "Guadiana", actual: guadiana.actual, share: guadianaShare };
+const largest = [...embalses].sort((a, b) => b.capacidad_hm3 - a.capacidad_hm3)[0];
+const quizQuestions = buildQuiz(embalsesResumen);
+
+const faqs = [
+  {
+    question: "¿Cuál es el embalse más grande de Extremadura?",
+    answer: `${largest.nombre}, con ${formatHm3(largest.capacidad_hm3)} hm³ de capacidad. En el último boletín almacena ${formatHm3(largest.actual_hm3)} hm³, el ${formatPctCompact(largest.porcentaje)} de su vaso.`,
+  },
+  {
+    question: "¿Qué cuenca tiene más agua embalsada en Extremadura?",
+    answer: `La cuenca del ${leading.name} concentra el ${formatDecimal(leading.share)} % del agua embalsada de la región, con ${formatInteger(leading.actual)} hm³. El ${other.name} reúne ${formatInteger(other.actual)} hm³, el ${formatDecimal(other.share)} % restante.`,
+  },
+  {
+    question: "¿Cada cuánto se actualizan los datos?",
+    answer: `La referencia es el boletín hidrológico semanal del MITECO, que se publica los martes. La web se regenera automáticamente con GitHub Actions y muestra siempre la fecha del último boletín: ${dateLabel}.`,
+  },
+  {
+    question: "¿Qué significa que un embalse esté al X %?",
+    answer: "Es el volumen embalsado dividido entre su capacidad máxima. En los agregados de Extremadura, Guadiana y Tajo se pondera por capacidad, no se hace una media simple. La variación semanal compara las dos últimas semanas publicadas.",
+  },
+  {
+    question: "¿De dónde salen los datos y qué licencia tienen?",
+    answer: "Del Boletín Hidrológico Semanal del MITECO, normalizado por MapasDeEmbalses.es. Los datos se reutilizan con licencia CC BY 4.0 y la atribución aparece en cada ficha y en el pie de página.",
+  },
+];
+
+const title = "Estado de los Embalses en Extremadura: Nivel de Agua y Capacidad";
+const description = `Nivel de agua, capacidad y variación semanal de los ${total.total} embalses de Badajoz y Cáceres. Datos del boletín hidrológico del MITECO actualizados cada martes.`;
+const canonicalPath = "/";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE}/#website`,
+      url: SITE,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      inLanguage: "es-ES",
+      publisher: {
+        "@type": "Person",
+        name: AUTHOR_NAME,
+        url: AUTHOR_URL,
+      },
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${absoluteUrl("/")}#webpage`,
+      url: absoluteUrl("/"),
+      name: title,
+      description,
+      isPartOf: { "@id": `${SITE}/#website` },
+      inLanguage: "es-ES",
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: absoluteUrl("assets/og-image.png"),
+        width: 1200,
+        height: 630,
+      },
+    },
+    {
+      "@type": "Dataset",
+      "@id": `${SITE}/#dataset`,
+      name: "Estado de los embalses de Extremadura",
+      description: `Volumen embalsado, capacidad, porcentaje de llenado y variación semanal de ${total.total} embalses de Badajoz y Cáceres.`,
+      url: absoluteUrl("/"),
+      dateModified: fechaActualizacion,
+      temporalCoverage,
+      spatialCoverage: [
+        { "@type": "Place", name: "Extremadura, España" },
+        { "@type": "Place", name: "Provincia de Badajoz, España" },
+        { "@type": "Place", name: "Provincia de Cáceres, España" },
+      ],
+      variableMeasured: [
+        "Volumen embalsado (hm³)",
+        "Capacidad total (hm³)",
+        "Porcentaje de llenado (%)",
+        "Variación semanal (hm³)",
+      ],
+      creator: {
+        "@type": "Person",
+        name: AUTHOR_NAME,
+        url: AUTHOR_URL,
+      },
+      isBasedOn: "https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico/",
+      license: "https://creativecommons.org/licenses/by/4.0/",
+      distribution: [
+        {
+          "@type": "DataDownload",
+          encodingFormat: "application/json",
+          contentUrl: absoluteUrl("datos/embalses.json"),
+          name: "Estado de los embalses de Extremadura (JSON)",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${SITE}/#faq`,
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout title={title} description={description} canonicalPath={canonicalPath} jsonLd={jsonLd}>
+  <section class="relative overflow-hidden border-b border-slate-200/70" aria-labelledby="titulo-panel">
+    <div class="mx-auto max-w-7xl px-4 pb-10 pt-10 sm:px-6 sm:pt-14 lg:px-8 lg:pb-14 lg:pt-16">
+      <div class="grid items-end gap-10 lg:grid-cols-12 lg:gap-12">
+        <div class="lg:col-span-7">
+          <h1
+            id="titulo-panel"
+            class="max-w-none text-balance text-[clamp(2.25rem,5vw,4rem)] font-bold leading-[0.98] tracking-[-0.04em] text-slate-950"
+          >
+            Estado de los Embalses en Extremadura:{' '}
+            <span class="text-blue-700">Nivel de Agua y Capacidad en Tiempo Real</span>
+          </h1>
+
+          <p class="mt-5 max-w-2xl text-pretty text-[17px] leading-relaxed text-slate-600 sm:text-lg">
+            El estado del agua embalsada en Badajoz y Cáceres, embalse a embalse. La referencia oficial es el
+            boletín hidrológico semanal del MITECO, que se publica cada martes.
+          </p>
+
+          <div class="mt-7 flex flex-wrap items-center gap-3">
+            <a
+              href="#embalses"
+              class="inline-flex items-center gap-2 rounded-full bg-blue-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50"
+            >
+              Ver los {total.total} embalses
+              <ArrowDown class="h-4 w-4" aria-hidden="true" />
+            </a>
+            <a
+              href="/metodologia/"
+              class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:text-slate-950"
+            >
+              Cómo se calculan los datos
+              <ArrowRight class="h-4 w-4" aria-hidden="true" />
+            </a>
+          </div>
+
+          <div class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2.5 text-[13px] text-slate-500">
+            <span class="inline-flex items-center gap-2">
+              <CalendarDays class="h-4 w-4 text-slate-400" aria-hidden="true" />
+              Boletín del {dateLabel}
+            </span>
+            <span class="inline-flex items-center gap-2">
+              <Database class="h-4 w-4 text-slate-400" aria-hidden="true" />
+              MITECO · MapasDeEmbalses.es
+            </span>
+            <span class="inline-flex items-center gap-1.5 text-emerald-700">
+              <CircleCheck class="h-3.5 w-3.5" aria-hidden="true" />
+              Datos del último boletín
+            </span>
+          </div>
+        </div>
+
+        <aside class="surface min-w-0 p-6 shadow-[var(--shadow-lift)] sm:p-7 lg:col-span-5" aria-labelledby="resumen-global">
+          <div class="flex items-center justify-between gap-3">
+            <h2 id="resumen-global" class="text-sm font-semibold text-slate-700">Total Extremadura</h2>
+            <span class="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-slate-600 tnum">
+              {total.total} con dato
+            </span>
+          </div>
+
+          <ReservoirGauge
+            value={total.porcentaje}
+            capacity={total.capacidad}
+            volume={total.actual}
+            className="mt-5"
+          />
+
+          <div class="mt-5 grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
+            <div>
+              <p class="eyebrow">Disponible</p>
+              <p class="mt-1 text-lg font-semibold tracking-[-0.02em] text-slate-950 tnum">
+                {formatInteger(available)} <span class="text-sm font-medium text-slate-500">hm³</span>
+              </p>
+            </div>
+            <div>
+              <p class="eyebrow">Última semana</p>
+              <TrendBadge value={total.variacion} size="md" className="mt-1.5" />
+            </div>
+          </div>
+
+          <p class="mt-4 text-[11px] leading-relaxed text-slate-500">
+            Porcentaje ponderado por capacidad de los embalses con dato. Fuente: MITECO · MapasDeEmbalses.es.
+          </p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section class="mt-6 grid gap-4 md:grid-cols-3" aria-label="Indicadores por cuenca y balance semanal">
+      <article class="surface flex min-w-0 flex-col p-5">
+        <div class="flex items-center gap-2.5">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-50 text-cyan-700 ring-1 ring-cyan-100">
+            <WavesHorizontal class="h-4 w-4" aria-hidden="true" />
+          </span>
+          <h3 class="text-[13px] font-semibold leading-tight text-slate-700">Cuenca del Guadiana</h3>
+        </div>
+        <p class="mt-4 flex items-baseline gap-1.5">
+          <span class="text-[2rem] font-semibold leading-none tracking-[-0.035em] text-slate-950 tnum">
+            {formatDecimal(guadiana.porcentaje)}
+          </span>
+          <span class="text-sm font-medium text-slate-500">%</span>
+        </p>
+        <p class="mt-1.5 text-[13px] leading-relaxed text-slate-500">
+          <span class="font-semibold text-slate-700 tnum">{guadiana.total}</span> embalses ·{' '}
+          <span class="tnum">{formatInteger(guadiana.actual)}</span> hm³ de{' '}
+          <span class="tnum">{formatInteger(guadiana.capacidad)}</span>
+        </p>
+        <div class="mt-auto pt-4">
+          <WaterBar
+            value={guadiana.porcentaje}
+            label={`Cuenca del Guadiana: ${formatPctCompact(guadiana.porcentaje)} de capacidad`}
+            tone="cyan"
+          />
+        </div>
+      </article>
+
+      <article class="surface flex min-w-0 flex-col p-5">
+        <div class="flex items-center gap-2.5">
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-700 ring-1 ring-blue-100">
+            <Droplets class="h-4 w-4" aria-hidden="true" />
+          </span>
+          <h3 class="text-[13px] font-semibold leading-tight text-slate-700">Cuenca del Tajo</h3>
+        </div>
+        <p class="mt-4 flex items-baseline gap-1.5">
+          <span class="text-[2rem] font-semibold leading-none tracking-[-0.035em] text-slate-950 tnum">
+            {formatDecimal(tajo.porcentaje)}
+          </span>
+          <span class="text-sm font-medium text-slate-500">%</span>
+        </p>
+        <p class="mt-1.5 text-[13px] leading-relaxed text-slate-500">
+          <span class="font-semibold text-slate-700 tnum">{tajo.total}</span> embalses ·{' '}
+          <span class="tnum">{formatInteger(tajo.actual)}</span> hm³ de{' '}
+          <span class="tnum">{formatInteger(tajo.capacidad)}</span>
+        </p>
+        <div class="mt-auto pt-4">
+          <WaterBar
+            value={tajo.porcentaje}
+            label={`Cuenca del Tajo: ${formatPctCompact(tajo.porcentaje)} de capacidad`}
+            tone="blue"
+          />
+        </div>
+      </article>
+
+      <article class="surface flex min-w-0 flex-col p-5">
+        <div class="flex items-center gap-2.5">
+          <span
+            class:list={[
+              "flex h-8 w-8 items-center justify-center rounded-lg ring-1",
+              balanceTone === "emerald"
+                ? "bg-emerald-50 text-emerald-700 ring-emerald-100"
+                : balanceTone === "rose"
+                  ? "bg-rose-50 text-rose-700 ring-rose-100"
+                  : "bg-slate-100 text-slate-600 ring-slate-200",
+            ]}
+          >
+            <ArrowDownUp class="h-4 w-4" aria-hidden="true" />
+          </span>
+          <h3 class="text-[13px] font-semibold leading-tight text-slate-700">Balance de la última semana</h3>
+        </div>
+        <p class="mt-4 flex items-baseline gap-1.5">
+          <span class="text-[2rem] font-semibold leading-none tracking-[-0.035em] text-slate-950 tnum">
+            {balanceSign}{formatHm3(total.variacion)}
+          </span>
+          <span class="text-sm font-medium text-slate-500">hm³</span>
+        </p>
+        <p class="mt-1.5 text-[13px] leading-relaxed text-slate-500">
+          <span class="font-semibold text-emerald-700">{total.suben}</span> {subenLabel} ·{' '}
+          <span class="font-semibold text-rose-700">{total.bajan}</span> {bajanLabel} · {total.estables}{' '}
+          {establesLabel}
+        </p>
+        <div class="mt-auto pt-4">
+          <div class="flex h-2 gap-0.5 overflow-hidden rounded-full bg-slate-100" aria-hidden="true">
+            <span class="h-full bg-emerald-500" style={`width: ${upShare}%`}></span>
+            <span class="h-full bg-rose-500" style={`width: ${downShare}%`}></span>
+          </div>
+          <div class="mt-2 flex items-center justify-between text-[11px] text-slate-500">
+            <span>Variación neta de los embalses con dato</span>
+            <span class="tnum">{total.total} embalses</span>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <section
+    id="embalses"
+    class="mx-auto max-w-7xl scroll-mt-24 px-4 pb-4 pt-14 sm:px-6 lg:px-8"
+    aria-labelledby="titulo-embalses"
+  >
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <h2 id="titulo-embalses" class="text-[1.75rem] font-bold tracking-[-0.03em] text-slate-950 sm:text-4xl">
+          Explora los embalses
+        </h2>
+        <p class="mt-2 max-w-2xl text-pretty text-sm leading-relaxed text-slate-600 sm:text-base">
+          Busca por nombre, filtra por provincia y cuenca, y ordena por capacidad, nivel de llenado o subida
+          semanal. {total.total} embalses con dato de {totalCatalogo} en el catálogo de Extremadura.
+        </p>
+      </div>
+      <p class="shrink-0 text-sm text-slate-500">
+        Datos del <span class="font-medium text-slate-700">{dateLabel}</span>
+      </p>
+    </div>
+
+    <div class="mt-6">
+      <FilterableGrid client:load embalses={embalsesResumen} totalCatalogo={totalCatalogo} />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8" aria-label="Nota sobre los datos">
+    <div class="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-start gap-3">
+        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+          <Info class="h-4 w-4" aria-hidden="true" />
+        </span>
+        <p class="max-w-3xl text-sm leading-relaxed text-slate-600">
+          Los porcentajes agregados se ponderan por capacidad y solo incluyen embalses con dato publicado. La
+          variación compara la última semana disponible con la anterior. Si un dato falta, no se convierte en cero.
+        </p>
+      </div>
+      <a
+        href="/metodologia/"
+        class="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-blue-700 transition-colors hover:text-blue-800"
+      >
+        Leer la metodología
+        <ArrowRight class="h-4 w-4" aria-hidden="true" />
+      </a>
+    </div>
+  </section>
+
+  <section class="mt-16 bg-abyss-950 py-16 text-white sm:py-20" aria-labelledby="contexto-agua">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+        <div class="lg:col-span-6">
+          <h2 id="contexto-agua" class="text-balance text-3xl font-bold tracking-[-0.035em] text-white sm:text-4xl">
+            El agua de Extremadura, en contexto
+          </h2>
+          <p class="mt-4 max-w-xl text-pretty text-[15px] leading-relaxed text-slate-300 sm:text-base">
+            La cuenca del {leading.name} concentra el {formatDecimal(leading.share)} % del agua embalsada de la región,
+            aunque representa el {formatDecimal(leading.capacityShare)} % de la capacidad. Dos embalses,{' '}
+            {top2.map((item) => item.nombre).join(" y ")}, guardan el {formatDecimal(top2Share)} % del volumen total.
+          </p>
+          <div class="mt-8 grid grid-cols-2 gap-4">
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <span class="block text-3xl font-black tracking-[-0.04em] text-cyan-300 tnum">
+                {formatDecimal(leading.share)} %
+              </span>
+              <span class="mt-1 block text-xs leading-relaxed text-slate-400">
+                del agua embalsada está en el {leading.name}
+              </span>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <span class="block text-3xl font-black tracking-[-0.04em] text-blue-300 tnum">
+                {formatDecimal(top2Share)} %
+              </span>
+              <span class="mt-1 block text-xs leading-relaxed text-slate-400">
+                se concentra en {top2.map((item) => item.nombre).join(" y ")}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6">
+          <div class="rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-7">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h3 class="text-sm font-semibold text-white">Reparto del agua embalsada</h3>
+              <span class="text-[11px] uppercase tracking-[0.14em] text-slate-400">Boletín del {dateLabel}</span>
+            </div>
+
+            <div
+              class="mt-5 flex h-4 overflow-hidden rounded-full bg-white/10"
+              role="img"
+              aria-label={`Reparto del agua embalsada: Guadiana ${formatDecimal(guadianaShare)} por ciento, Tajo ${formatDecimal(tajoShare)} por ciento.`}
+            >
+              <span class="h-full bg-cyan-400" style={`width: ${guadianaShare}%`}></span>
+              <span class="h-full bg-blue-500" style={`width: ${tajoShare}%`}></span>
+            </div>
+
+            <div class="mt-4 grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <span class="inline-flex items-center gap-2 text-slate-300">
+                  <span class="h-2 w-2 rounded-full bg-cyan-400" aria-hidden="true"></span>
+                  Guadiana
+                </span>
+                <p class="mt-1 font-semibold text-white tnum">{formatInteger(guadiana.actual)} hm³</p>
+              </div>
+              <div>
+                <span class="inline-flex items-center gap-2 text-slate-300">
+                  <span class="h-2 w-2 rounded-full bg-blue-500" aria-hidden="true"></span>
+                  Tajo
+                </span>
+                <p class="mt-1 font-semibold text-white tnum">{formatInteger(tajo.actual)} hm³</p>
+              </div>
+            </div>
+
+            <div class="mt-5 border-t border-white/10 pt-4 text-xs leading-relaxed text-slate-400">
+              Capacidad conjunta: {formatInteger(total.capacidad)} hm³. El {leading.name} representa el{' '}
+              {formatDecimal(leading.capacityShare)} % de la capacidad y el {formatDecimal(leading.share)} % del agua.
+            </div>
+
+            <a
+              href="/metodologia/"
+              class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 transition-colors hover:text-white"
+            >
+              Cómo calculamos estas cifras
+              <ArrowRight class="h-4 w-4" aria-hidden="true" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reto" class="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6 lg:px-8" aria-labelledby="reto-titulo">
+    <div class="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-12">
+      <div>
+        <h2 id="reto-titulo" class="flex items-center gap-3 text-3xl font-bold tracking-[-0.035em] text-slate-950 sm:text-4xl">
+          <Sparkles class="h-6 w-6 shrink-0 text-cyan-600" aria-hidden="true" />
+          El reto del agua
+        </h2>
+        <p class="mt-4 max-w-md text-pretty text-[15px] leading-relaxed text-slate-600 sm:text-base">
+          Cinco preguntas sobre los embalses de Extremadura. Sin registro, con datos reales del último boletín y una
+          explicación después de cada respuesta.
+        </p>
+        <p class="mt-4 max-w-md text-sm leading-relaxed text-slate-500">
+          Se regenera cada martes con el boletín. ¿Cuántas aciertas?
+        </p>
+        <a
+          href="/#embalses"
+          class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 transition-colors hover:text-blue-800"
+        >
+          Repasar el catálogo antes de jugar
+          <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+      </div>
+
+      <EmbalseQuiz client:visible questions={quizQuestions} />
+    </div>
+  </section>
+
+  <section
+    id="preguntas-frecuentes"
+    class="mx-auto max-w-4xl scroll-mt-24 px-4 py-16 sm:px-6 lg:px-8"
+    aria-labelledby="faq-titulo"
+  >
+    <div class="flex items-start gap-3">
+      <CircleQuestionMark class="mt-1 h-6 w-6 shrink-0 text-blue-700" aria-hidden="true" />
+      <div>
+        <h2 id="faq-titulo" class="text-3xl font-bold tracking-[-0.035em] text-slate-950 sm:text-4xl">
+          Preguntas frecuentes
+        </h2>
+        <p class="mt-2 text-pretty text-[15px] leading-relaxed text-slate-600">
+          Respuestas directas con los datos del boletín del {dateLabel}.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-8 space-y-3">
+      {faqs.map((faq, index) => (
+        <details class="surface group p-5 sm:p-6" open={index === 0}>
+          <summary class="flex cursor-pointer list-none items-start justify-between gap-4 text-left text-base font-semibold text-slate-900 sm:text-lg">
+            <span>{faq.question}</span>
+            <ChevronDown
+              class="mt-0.5 h-5 w-5 shrink-0 text-slate-400 transition-transform group-open:rotate-180"
+              aria-hidden="true"
+            />
+          </summary>
+          <p class="mt-3 border-t border-slate-100 pt-3 text-sm leading-relaxed text-slate-600">{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+
+    <p class="mt-6 text-sm text-slate-500">
+      ¿Quieres saber cómo se calcula cada cifra?{' '}
+      <a href="/metodologia/" class="font-semibold text-blue-700 transition-colors hover:text-blue-800">
+        Lee la metodología
+      </a>
+      .
+    </p>
+  </section>
+</BaseLayout>

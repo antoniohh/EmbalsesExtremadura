@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="0.45" stop-color="#0891b2"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#041c2c"/>
+  <rect x="0" y="0" width="1200" height="6" fill="#22d3ee"/>
+  <g transform="translate(72 58)">
+    <rect width="84" height="84" rx="24" fill="#082f49"/>
+    <path d="M42 16c9.6 11.4 15 18.5 15 25.7a15 15 0 1 1-30 0C27 34.5 32.4 27.4 42 16Z" fill="#22d3ee"/>
+    <path d="M13 56c8.5-5.5 15.7-5.5 24.2 0s15.7 5.5 24.2 0 9.1 0 9.1 0" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    <path d="M13 68c8.5-5.5 15.7-5.5 24.2 0s15.7 5.5 24.2 0 9.1 0 9.1 0" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+  </g>
+  <text x="180" y="105" font-family="DejaVu Sans, sans-serif" font-size="30" font-weight="700" fill="#ffffff">Embalses <tspan font-weight="400" fill="#94a3b8">de Extremadura</tspan></text>
+  <text x="180" y="136" font-family="DejaVu Sans, sans-serif" font-size="15" font-weight="600" letter-spacing="2.5" fill="#22d3ee">PANEL PÚBLICO DEL AGUA</text>
+
+  <text x="72" y="300" font-family="DejaVu Sans, sans-serif" font-size="64" font-weight="700" fill="#ffffff">Estado de los embalses</text>
+  <text x="72" y="376" font-family="DejaVu Sans, sans-serif" font-size="64" font-weight="700" fill="#ffffff">de Extremadura</text>
+  <text x="72" y="438" font-family="DejaVu Sans, sans-serif" font-size="26" fill="#cbd5e1">Nivel, capacidad y evolución semanal del agua embalsada</text>
+
+  <path d="M0 520 C 100 486, 200 486, 300 520 S 500 554, 600 520 S 800 486, 900 520 S 1100 554, 1200 520 V630 H0 Z" fill="url(#water)" opacity=".92"/>
+  <path d="M0 542 C 110 512, 220 512, 330 542 S 550 572, 660 542 S 880 512, 990 542 S 1120 566, 1200 542 V630 H0 Z" fill="#0e7490" opacity=".5"/>
+
+  <text x="72" y="596" font-family="DejaVu Sans, sans-serif" font-size="22" font-weight="600" fill="#ffffff">embalses.antoniohorrillo.com</text>
+  <text x="1128" y="596" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="18" fill="#a5f3fc">Datos: MITECO · CC BY 4.0</text>
+</svg>

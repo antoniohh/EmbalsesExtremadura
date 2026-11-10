@@ -1,0 +1,60 @@
+name: Actualizar embalses y desplegar en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # El boletín del MITECO se publica los martes. 13:00 UTC = 14:00 CET.
+    # Segundo intento por la tarde por si la fuente tarda o GitHub encola el job.
+    - cron: "0 13 * * 2"
+    - cron: "0 18 * * 2"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Europe/Madrid
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Descargar datos del MITECO
+        run: npm run data
+
+      - name: Compilar Astro
+        run: npm run build
+
+      - name: Subir artefacto de GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

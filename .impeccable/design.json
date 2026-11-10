@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-07T02:40:00.000Z",
+  "title": "Design System: Embalses de Extremadura",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Reservoir Blue",
+        "canonical": "#1d4ed8",
+        "tonalRamp": ["#eff6ff", "#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6", "#1d4ed8", "#1e40af"]
+      },
+      "primary-bright": {
+        "role": "primary",
+        "displayName": "Current Blue",
+        "canonical": "#2563eb",
+        "tonalRamp": ["#eff6ff", "#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6", "#2563eb", "#1d4ed8"]
+      },
+      "water-cyan": {
+        "role": "secondary",
+        "displayName": "Surface Cyan",
+        "canonical": "#0891b2",
+        "tonalRamp": ["#ecfeff", "#cffafe", "#a5f3fc", "#67e8f9", "#22d3ee", "#06b6d4", "#0891b2", "#0e7490"]
+      },
+      "water-cyan-light": {
+        "role": "secondary",
+        "displayName": "Wave Cyan",
+        "canonical": "#22d3ee",
+        "tonalRamp": ["#ecfeff", "#cffafe", "#a5f3fc", "#67e8f9", "#22d3ee", "#06b6d4", "#0891b2", "#0e7490"]
+      },
+      "abyss": {
+        "role": "neutral",
+        "displayName": "Abyss Navy",
+        "canonical": "#041c2c",
+        "tonalRamp": ["#e6eef3", "#c2d5e0", "#8fadc0", "#5b819a", "#2f5c78", "#123f5a", "#062b40", "#041c2c"]
+      },
+      "logo-navy": {
+        "role": "neutral",
+        "displayName": "Logo Navy",
+        "canonical": "#082f49",
+        "tonalRamp": ["#e6eef3", "#c2d5e0", "#8fadc0", "#5b819a", "#2f5c78", "#123f5a", "#082f49", "#041c2c"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#020617",
+        "tonalRamp": ["#f8fafc", "#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b", "#334155", "#020617"]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#475569",
+        "tonalRamp": ["#f8fafc", "#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b", "#475569", "#1e293b"]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Muted Ink",
+        "canonical": "#64748b",
+        "tonalRamp": ["#f8fafc", "#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b", "#475569", "#334155"]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Slate Ground",
+        "canonical": "#f8fafc",
+        "tonalRamp": ["#f8fafc", "#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b", "#334155", "#0f172a"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Paper White",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#ffffff", "#f8fafc", "#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b", "#334155"]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Cool Line",
+        "canonical": "#e2e8f0",
+        "tonalRamp": ["#f8fafc", "#f1f5f9", "#e2e8f0", "#cbd5e1", "#94a3b8", "#64748b", "#334155", "#0f172a"]
+      },
+      "rise": {
+        "role": "tertiary",
+        "displayName": "Rise Green",
+        "canonical": "#059669",
+        "tonalRamp": ["#ecfdf5", "#d1fae5", "#a7f3d0", "#6ee7b7", "#34d399", "#10b981", "#059669", "#047857"]
+      },
+      "fall": {
+        "role": "tertiary",
+        "displayName": "Fall Rose",
+        "canonical": "#e11d48",
+        "tonalRamp": ["#fff1f2", "#ffe4e6", "#fecdd3", "#fda4af", "#fb7185", "#f43f5e", "#e11d48", "#be123c"]
+      },
+      "warning": {
+        "role": "tertiary",
+        "displayName": "Cautious Amber",
+        "canonical": "#b45309",
+        "tonalRamp": ["#fffbeb", "#fef3c7", "#fde68a", "#fcd34d", "#fbbf24", "#f59e0b", "#b45309", "#92400e"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Home h1 and reservoir name. One per viewport." },
+      "headline": { "displayName": "Headline", "purpose": "Section titles and the largest detail metric." },
+      "title": { "displayName": "Title", "purpose": "Card names, panel headings and table labels." },
+      "body": { "displayName": "Body", "purpose": "Explanations, methodology prose and metadata." },
+      "label": { "displayName": "Label", "purpose": "Form legends, KPI captions and footer headings; uppercase and tracked." },
+      "numeric": { "displayName": "Numeric", "purpose": "Every comparable measurement; tabular figures." },
+      "micro": { "displayName": "Micro", "purpose": "The smallest labels: 'llenado', chart units and tank ticks." },
+      "caption": { "displayName": "Caption", "purpose": "Chips, table headers and short metadata." },
+      "small": { "displayName": "Small", "purpose": "Card context, filter counts and compact controls." },
+      "body-sm": { "displayName": "Body Small", "purpose": "Methodology prose, detail explanations and SEO summaries." },
+      "body-lg": { "displayName": "Body Large", "purpose": "Hero subtitle and prominent detail copy." },
+      "title-sm": { "displayName": "Title Small", "purpose": "Reservoir card names." },
+      "metric-sm": { "displayName": "Metric Small", "purpose": "The percentage on a reservoir card." },
+      "metric": { "displayName": "Metric", "purpose": "KPI values in the basin cards." },
+      "gauge": { "displayName": "Gauge", "purpose": "The total percentage inside the reservoir tank." },
+      "display-lg": { "displayName": "Display Large", "purpose": "The single detail-page percentage card." }
+    },
+    "shadows": [
+      {
+        "name": "surface",
+        "value": "0 1px 2px rgb(15 23 42 / 0.04), 0 12px 32px -20px rgb(15 23 42 / 0.28)",
+        "purpose": "Resting shadow of white cards."
+      },
+      {
+        "name": "lift",
+        "value": "0 2px 4px rgb(15 23 42 / 0.05), 0 22px 46px -24px rgb(15 23 42 / 0.34)",
+        "purpose": "Aggregate card and hovered reservoir cards."
+      },
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 4px rgb(37 99 235 / 0.10)",
+        "purpose": "Input focus halo; paired with a blue border."
+      }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Water rise, card entrance and chart draw." },
+      { "name": "wave-slow", "value": "9s linear infinite", "purpose": "Primary surface wave in the tank." },
+      { "name": "wave-fast", "value": "14s linear infinite reverse", "purpose": "Second wave at 45% opacity." },
+      { "name": "chart-draw", "value": "1150ms ease-out 120ms forwards", "purpose": "Line draw-in on the detail chart." },
+      { "name": "water-rise", "value": "1200ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Tank and progress channel fill." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one action that moves the visitor toward the catalogue or back to it.",
+      "html": "<button class=\"ds-btn-primary\">Ver los 42 embalses</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; background: #1d4ed8; color: #ffffff; border: 0; border-radius: 9999px; padding: 12px 20px; font-family: 'Public Sans Variable', sans-serif; font-size: 14px; font-weight: 600; line-height: 1.2; box-shadow: 0 1px 2px rgb(15 23 42 / .08); transition: background 160ms ease; } .ds-btn-primary:hover { background: #1e40af; } .ds-btn-primary:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Exploratory action that must not compete with the primary CTA.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">Cómo se calculan los datos</a>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: #ffffff; color: #475569; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 12px 20px; font-family: 'Public Sans Variable', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; transition: border-color 160ms ease, color 160ms ease; } .ds-btn-secondary:hover { border-color: #94a3b8; color: #020617; } .ds-btn-secondary:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }"
+    },
+    {
+      "name": "Reservoir Card",
+      "kind": "card",
+      "refersTo": "card-surface",
+      "description": "The catalogue unit: name, province and basin, level, volume and weekly movement.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-head\"><div><h3>La Serena</h3><div class=\"ds-chips\"><span class=\"ds-chip ds-chip-neutral\">Badajoz</span><span class=\"ds-chip ds-chip-cyan\">Guadiana</span></div></div><div class=\"ds-card-level\"><strong>81,52%</strong><span>llenado</span><span class=\"ds-trend-down\">-2,00 hm³</span></div></div><div class=\"ds-card-volume\"><span>Volumen embalsado</span><strong>2.624 <em>/ 3.219 hm³</em></strong></div><div class=\"ds-bar\"><span style=\"width:81.52%\"></span></div><footer><span>Capacidad 3.219 hm³</span><b>Ver histórico y detalles ↗</b></footer></article>",
+      "css": ".ds-card { display: flex; flex-direction: column; min-width: 0; background: #ffffff; border: 1px solid rgb(226 232 240 / .8); border-radius: 16px; padding: 20px; font-family: 'Public Sans Variable', sans-serif; color: #020617; box-shadow: 0 1px 2px rgb(15 23 42 / .04), 0 12px 32px -20px rgb(15 23 42 / .28); transition: transform 300ms cubic-bezier(.16,1,.3,1), box-shadow 300ms; } .ds-card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgb(15 23 42 / .05), 0 22px 46px -24px rgb(15 23 42 / .34); } .ds-card-head { display: flex; justify-content: space-between; gap: 12px; } .ds-card h3 { margin: 0; font-size: 17px; letter-spacing: -.018em; } .ds-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; } .ds-chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 9999px; padding: 2px 8px; font-size: 11px; font-weight: 500; } .ds-chip-neutral { background: #f1f5f9; color: #475569; box-shadow: inset 0 0 0 1px #e2e8f0; } .ds-chip-cyan { background: #ecfeff; color: #155e75; box-shadow: inset 0 0 0 1px rgb(165 243 252 / .7); } .ds-card-level { text-align: right; flex-shrink: 0; font-variant-numeric: tabular-nums; } .ds-card-level strong { display: block; font-size: 27px; letter-spacing: -.035em; line-height: 1; } .ds-card-level > span { display: block; margin-top: 4px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #64748b; } .ds-trend-down { display: inline-block; margin-top: 8px; border: 1px solid #fecdd3; border-radius: 6px; background: #fff1f2; color: #be123c; padding: 4px 8px; font-size: 11px; font-weight: 600; } .ds-card-volume { display: flex; justify-content: space-between; gap: 8px; margin-top: 20px; font-size: 13px; color: #64748b; font-variant-numeric: tabular-nums; } .ds-card-volume strong { color: #0f172a; font-weight: 600; } .ds-card-volume em { color: #64748b; font-style: normal; font-weight: 400; } .ds-bar { height: 10px; margin-top: 10px; overflow: hidden; border-radius: 9999px; background: #f1f5f9; box-shadow: inset 0 0 0 1px rgb(226 232 240 / .7); } .ds-bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #06b6d4, #2563eb); } .ds-card footer { display: flex; justify-content: space-between; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid #f1f5f9; font-size: 12px; color: #64748b; } .ds-card footer b { color: #1d4ed8; font-size: 12px; }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "Instant reservoir search with a leading magnifier and a clear action.",
+      "html": "<label class=\"ds-field\"><span>Buscar embalse</span><div><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><path d=\"m20 20-3.5-3.5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg><input placeholder=\"La Serena, Cíjara, Guadiana…\"></div></label>",
+      "css": ".ds-field { display: block; font-family: 'Public Sans Variable', sans-serif; } .ds-field > span { display: block; margin-bottom: 8px; color: #64748b; font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; } .ds-field > div { position: relative; } .ds-field svg { position: absolute; left: 14px; top: 50%; width: 16px; height: 16px; transform: translateY(-50%); color: #64748b; } .ds-field input { width: 100%; height: 44px; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc; padding: 0 40px; color: #020617; font: 400 14px 'Public Sans Variable', sans-serif; outline: none; transition: background 160ms, border-color 160ms, box-shadow 160ms; } .ds-field input::placeholder { color: #64748b; } .ds-field input:focus { background: #ffffff; border-color: #3b82f6; box-shadow: 0 0 0 4px rgb(37 99 235 / .10); }"
+    },
+    {
+      "name": "Segmented Filter",
+      "kind": "chip",
+      "description": "Province and basin filters. One selected option, the rest quiet.",
+      "html": "<div class=\"ds-segmented\" role=\"group\" aria-label=\"Provincia\"><button aria-pressed=\"true\">Todas</button><button aria-pressed=\"false\">Badajoz</button><button aria-pressed=\"false\">Cáceres</button></div>",
+      "css": ".ds-segmented { display: inline-flex; gap: 0; border-radius: 12px; background: #f1f5f9; padding: 4px; box-shadow: inset 0 0 0 1px rgb(226 232 240 / .7); font-family: 'Public Sans Variable', sans-serif; } .ds-segmented button { appearance: none; border: 0; border-radius: 8px; background: transparent; padding: 6px 12px; color: #475569; font: 500 13px 'Public Sans Variable', sans-serif; cursor: pointer; transition: background 160ms, color 160ms, box-shadow 160ms; } .ds-segmented button[aria-pressed=\"true\"] { background: #ffffff; color: #020617; box-shadow: 0 0 0 1px #e2e8f0, 0 1px 2px rgb(15 23 42 / .06); } .ds-segmented button:hover { color: #020617; } .ds-segmented button:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }"
+    },
+    {
+      "name": "KPI Card",
+      "kind": "card",
+      "refersTo": "card-surface",
+      "description": "A basin or balance indicator: label, one large number, context and a level channel.",
+      "html": "<article class=\"ds-kpi\"><div class=\"ds-kpi-head\"><span class=\"ds-kpi-icon\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M2 12c3-3 6-3 9 0s6 3 9 0M2 17c3-3 6-3 9 0s6 3 9 0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg></span><h3>Cuenca del Guadiana</h3></div><p class=\"ds-kpi-value\">71,44 <span>%</span></p><p class=\"ds-kpi-detail\">29 embalses · 5.800 hm³ de 8.119</p><div class=\"ds-kpi-bar\"><span style=\"width:71.44%\"></span></div></article>",
+      "css": ".ds-kpi { display: flex; flex-direction: column; min-width: 0; background: #ffffff; border: 1px solid rgb(226 232 240 / .8); border-radius: 16px; padding: 20px; font-family: 'Public Sans Variable', sans-serif; box-shadow: 0 1px 2px rgb(15 23 42 / .04), 0 12px 32px -20px rgb(15 23 42 / .28); } .ds-kpi-head { display: flex; align-items: center; gap: 10px; } .ds-kpi-icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: #ecfeff; color: #0e7490; box-shadow: inset 0 0 0 1px #cffafe; } .ds-kpi-icon svg { width: 16px; height: 16px; } .ds-kpi h3 { margin: 0; font-size: 13px; font-weight: 600; color: #334155; } .ds-kpi-value { margin: 16px 0 0; font-size: 32px; font-weight: 600; letter-spacing: -.035em; line-height: 1; color: #020617; font-variant-numeric: tabular-nums; } .ds-kpi-value span { font-size: 14px; font-weight: 500; color: #64748b; } .ds-kpi-detail { margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: #64748b; } .ds-kpi-bar { height: 8px; margin-top: 16px; overflow: hidden; border-radius: 9999px; background: #f1f5f9; box-shadow: inset 0 0 0 1px rgb(226 232 240 / .7); } .ds-kpi-bar span { display: block; height: 100%; border-radius: inherit; background: #0891b2; }"
+    },
+    {
+      "name": "Reservoir Tank",
+      "kind": "custom",
+      "description": "The signature aggregate visual: a measured vessel with a wave surface, depth ticks and the filled volume.",
+      "html": "<figure class=\"ds-tank\"><div class=\"ds-tank-head\"><div><strong>61,92%</strong><p>de la capacidad total de Extremadura</p></div><div class=\"ds-tank-scale\"><span>100</span><span>75</span><span>50</span><span>25</span><span>0</span></div></div><div class=\"ds-tank-vessel\"><div class=\"ds-tank-water\" style=\"height:61.92%\"><svg viewBox=\"0 0 1200 28\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M0 14C75 2 150 2 225 14s150 12 225 0 150-12 225 0 150 12 225 0 150-12 225 0 150 12 225 0v14H0Z\" fill=\"#22d3ee\"/></svg><span>8.828 hm³</span></div><i style=\"bottom:61.92%\"></i></div><figcaption><span>0 hm³</span><span>14.256 hm³ de capacidad</span></figcaption></figure>",
+      "css": ".ds-tank { margin: 0; font-family: 'Public Sans Variable', sans-serif; } .ds-tank-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; } .ds-tank-head strong { display: block; font-size: 54px; line-height: 1; letter-spacing: -.045em; color: #020617; font-variant-numeric: tabular-nums; } .ds-tank-head p { margin: 4px 0 0; font-size: 14px; color: #64748b; } .ds-tank-scale { display: flex; flex-direction: column; justify-content: space-between; height: 144px; padding: 2px 0; font-size: 10px; color: #64748b; font-variant-numeric: tabular-nums; } .ds-tank-vessel { position: relative; height: 144px; margin-top: 16px; overflow: hidden; border: 1px solid #e2e8f0; border-radius: 16px; background: #f8fafc; } .ds-tank-water { position: absolute; inset: auto 0 0 0; background: linear-gradient(180deg, #22d3ee 0%, #0891b2 38%, #2563eb 100%); transition: height 1200ms cubic-bezier(.16,1,.3,1); } .ds-tank-water svg { position: absolute; top: -7px; left: 0; width: 200%; height: 14px; animation: ds-wave 9s linear infinite; } .ds-tank-water > span { position: absolute; left: 12px; bottom: 12px; border-radius: 9999px; background: rgb(4 28 44 / .75); padding: 4px 10px; color: #ffffff; font-size: 10px; font-weight: 600; font-variant-numeric: tabular-nums; } .ds-tank-vessel i { position: absolute; left: 0; right: 0; border-top: 1px dashed rgb(255 255 255 / .9); } .ds-tank figcaption { display: flex; justify-content: space-between; margin-top: 12px; font-size: 12px; color: #64748b; font-variant-numeric: tabular-nums; } @keyframes ds-wave { from { transform: translateX(0); } to { transform: translateX(-50%); } } @media (prefers-reduced-motion: reduce) { .ds-tank-water { transition: none; } .ds-tank-water svg { animation: none; } }"
+    },
+    {
+      "name": "Trend Badge",
+      "kind": "chip",
+      "description": "Weekly movement; the only place green and red appear.",
+      "html": "<span class=\"ds-trend ds-trend-up\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m3 17 6-6 4 4 8-8M15 7h6v6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>+12,30 hm³</span>",
+      "css": ".ds-trend { display: inline-flex; align-items: center; gap: 4px; border: 1px solid; border-radius: 6px; padding: 4px 8px; font-family: 'Public Sans Variable', sans-serif; font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; } .ds-trend svg { width: 14px; height: 14px; } .ds-trend-up { border-color: #a7f3d0; background: #ecfdf5; color: #047857; } .ds-trend-down { border-color: #fecdd3; background: #fff1f2; color: #be123c; } .ds-trend-flat { border-color: #e2e8f0; background: #f8fafc; color: #475569; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Public Waterline",
+    "overview": "The system treats the waterline as its central tool. A level is never just a percentage; it is a depth with a surface, a volume, a date and a source. The page should feel like a well-kept public information desk: calm, exact, legible at a glance and honest about where the number came from.\n\nThe world is built from cool slate ground, white paper-like surfaces and two working blues. Cyan is the water itself; deep blue is the measured, institutional layer of links, actions and charts. Green and red appear only when the water has risen or fallen. There is no decorative texture, no glass, no gradient text and no second accent family. The only ornamental gesture is the wave at the top of a filled reservoir.\n\nThe density is deliberately uneven: a generous first viewport for the region's total, a compact filter bar, then a dense but orderly catalogue. On a phone the same hierarchy survives without a single clipped control.",
+    "keyCharacteristics": [
+      "Hydric blue and cyan on a near-white slate ground.",
+      "White surfaces with a one-pixel cool border and soft, offset shadows.",
+      "Public Sans with tabular numerals on every measurement.",
+      "One waterline motif: the aggregate tank and the thin level channels on cards.",
+      "State color only for direction: emerald for rise, rose for fall, slate for no change."
+    ],
+    "rules": [
+      {
+        "name": "The Two Blues Rule",
+        "body": "Blue is the institution and cyan is the water. Never introduce a third accent hue for decoration; a new color must name a new state.",
+        "section": "colors"
+      },
+      {
+        "name": "The Direction Rule",
+        "body": "Green and red are reserved for weekly movement. They never style a basin, a button, a heading or a container.",
+        "section": "colors"
+      },
+      {
+        "name": "The Source Rule",
+        "body": "Every screen that shows a measurement also shows its date and its source within the same viewport.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Any number that can be compared with another is set in tabular numerals. No proportional digits in tables, cards or charts.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Kicker Rule",
+        "body": "A heading stands on its own. No small uppercase label floats above an h1 or h2.",
+        "section": "typography"
+      },
+      {
+        "name": "The Lift-Only Rule",
+        "body": "Cards are quiet at rest. Elevation increases only when the surface is the page's focal point or the pointer is over an interactive card.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep the date, volume, capacity and source visible together.",
+      "Do use tabular numerals for every measurement and align them to the right.",
+      "Do use blue and cyan for water and institutional actions; reserve emerald and rose for weekly direction.",
+      "Do let the waterline carry the identity: the tank on the home page, the thin channel on cards.",
+      "Do maintain the 16px card radius, 12px control radius and full-pill actions.",
+      "Do say when data is stale or a value is missing; never convert a gap to zero."
+    ],
+    "donts": [
+      "Don't add a kicker or eyebrow above a heading.",
+      "Don't use gradient text, glass, blur as decoration, hard offset shadows or colored side stripes.",
+      "Don't introduce a second illustration style, emoji iconography or a decorative map.",
+      "Don't use green or red as a brand accent; they only mean rise and fall.",
+      "Don't invent reservoir data, forecasts or comparisons the source cannot support.",
+      "Don't let the catalogue become a wall of identical icon-and-text cards; the water level is the card's content."
+    ]
+  }
+}

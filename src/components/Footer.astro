@@ -1,0 +1,111 @@
+---
+import { ArrowUp, CalendarDays, Droplets, ExternalLink } from "@lucide/astro";
+import { embalses, fechaActualizacion } from "../lib/data";
+import { formatDateLong } from "../lib/format";
+---
+
+<footer class="mt-20 bg-abyss-950 text-slate-300">
+  <div class="h-1 w-full bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-600" aria-hidden="true"></div>
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <div class="flex items-center gap-3">
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10">
+            <Droplets class="h-5 w-5 text-cyan-300" aria-hidden="true" />
+          </span>
+          <span class="text-[15px] font-semibold text-white">
+            Embalses <span class="font-normal text-slate-400">de Extremadura</span>
+          </span>
+        </div>
+        <p class="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
+          Un panel público para entender el agua embalsada en Badajoz y Cáceres. Sin registro, sin ruido y con la
+          fuente siempre a la vista.
+        </p>
+        <p class="mt-4 text-xs leading-relaxed text-slate-400">
+          {embalses.length} embalses con dato · Referencia del {formatDateLong(fechaActualizacion)}.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300">Explorar</h2>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li><a href="/" class="transition-colors hover:text-white">Panel principal</a></li>
+          <li><a href="/#embalses" class="transition-colors hover:text-white">Todos los embalses</a></li>
+          <li><a href="/#reto" class="transition-colors hover:text-white">El reto del agua</a></li>
+          <li><a href="/#preguntas-frecuentes" class="transition-colors hover:text-white">Preguntas frecuentes</a></li>
+          <li><a href="/metodologia/" class="transition-colors hover:text-white">Metodología y fuentes</a></li>
+          <li><a href="/cookies/" class="transition-colors hover:text-white">Política de cookies</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300">Datos</h2>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li>
+            <a
+              href="https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico/"
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+            >
+              Boletín del MITECO <ExternalLink class="h-3 w-3" aria-hidden="true" />
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://mapasdeembalses.es/"
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+            >
+              MapasDeEmbalses.es <ExternalLink class="h-3 w-3" aria-hidden="true" />
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/deed.es"
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex items-center gap-1.5 transition-colors hover:text-white"
+            >
+              Licencia CC BY 4.0 <ExternalLink class="h-3 w-3" aria-hidden="true" />
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300">Fuente</h2>
+        <p class="mt-4 text-xs leading-relaxed text-slate-400">
+          Datos procesados por <span class="text-slate-200">MapasDeEmbalses.es</span>. Fuente original: MITECO
+          (Boletín Hidrológico Semanal). Datos sujetos a revisión.
+        </p>
+        <p class="mt-3 text-xs leading-relaxed text-slate-400">
+          Este panel no sustituye a los avisos oficiales de las confederaciones hidrográficas.
+        </p>
+        <a
+          href="#contenido"
+          class="mt-5 inline-flex items-center gap-1.5 text-xs font-medium text-cyan-300 transition-colors hover:text-white"
+        >
+          Volver arriba <ArrowUp class="h-3 w-3" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span>© {new Date().getFullYear()} Embalses de Extremadura · Consulta pública</span>
+        <span aria-hidden="true">·</span>
+        <a href="/cookies/" class="transition-colors hover:text-cyan-300 underline">Política de cookies</a>
+        <span aria-hidden="true">·</span>
+        <button type="button" data-cookie-open-modal class="transition-colors hover:text-cyan-300 underline cursor-pointer">
+          Preferencias de cookies
+        </button>
+      </div>
+      <p class="inline-flex items-center gap-1.5">
+        <CalendarDays class="h-3.5 w-3.5" aria-hidden="true" />
+        Boletín semanal · Actualización de los martes
+      </p>
+    </div>
+  </div>
+</footer>

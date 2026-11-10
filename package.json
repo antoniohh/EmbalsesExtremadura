@@ -1,0 +1,36 @@
+{
+  "name": "embalses-extremadura",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "data": "node scripts/fetch-data.mjs",
+    "build": "astro build",
+    "build:data": "npm run data && npm run build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "capture": "node scripts/capture.mjs",
+    "test:ui": "node scripts/test.mjs"
+  },
+  "dependencies": {
+    "@astrojs/react": "^7.1.4",
+    "@fontsource-variable/public-sans": "^5.3.0",
+    "@lucide/astro": "^1.62.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.4.2",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "oxc-transform-react": "^0.145.0",
+    "playwright-core": "^1.65.0",
+    "typescript": "^5.9.3"
+  }
+}

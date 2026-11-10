@@ -1,0 +1,100 @@
+import { clamp, cx, formatDecimal, formatInteger } from '../../lib/format'
+
+interface ReservoirGaugeProps {
+  value: number
+  capacity: number
+  volume: number
+  className?: string
+}
+
+const ticks = [100, 75, 50, 25, 0]
+
+export function ReservoirGauge({ value, capacity, volume, className }: ReservoirGaugeProps) {
+  const pct = clamp(value, 0, 100)
+  const ariaLabel = `Nivel global de Extremadura: ${formatDecimal(pct)} por ciento de la capacidad, ${formatInteger(
+    volume,
+  )} hectómetros cúbicos embalsados de ${formatInteger(capacity)}.`
+
+  return (
+    <div className={cx('relative', className)} role="img" aria-label={ariaLabel}>
+      <p className="flex items-baseline gap-1">
+        <span className="text-[3.35rem] font-semibold leading-none tracking-[-0.045em] text-slate-950 tnum">
+          {formatDecimal(pct)}
+        </span>
+        <span className="text-xl font-medium text-slate-500">%</span>
+      </p>
+      <p className="mt-1 text-sm leading-relaxed text-slate-500">de la capacidad total de Extremadura</p>
+
+      <div className="mt-4 flex gap-3">
+        <div className="relative h-36 flex-1 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 sm:h-40">
+          <div
+            className="water-gradient absolute inset-x-0 bottom-0 transition-[height] duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{ height: `${pct}%` }}
+          >
+            <svg
+              className="wave-slow absolute -top-[7px] left-0 h-3.5 w-[200%]"
+              viewBox="0 0 1200 28"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M0 14C75 2 150 2 225 14s150 12 225 0 150-12 225 0 150 12 225 0 150-12 225 0 150 12 225 0v14H0Z"
+                fill="#22d3ee"
+              />
+            </svg>
+            <svg
+              className="wave-fast absolute -top-[5px] left-0 h-3 w-[200%] opacity-45"
+              viewBox="0 0 1200 28"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M0 16C90 6 180 26 270 16s180-10 270 0 180 10 270 0 180-10 270 0 120 6 120 6v6H0Z"
+                fill="#67e8f9"
+              />
+            </svg>
+          </div>
+
+          {[25, 50, 75].map((tick) => (
+            <span
+              key={tick}
+              className={cx(
+                'pointer-events-none absolute inset-x-0 border-t',
+                tick <= pct ? 'border-white/30' : 'border-slate-200/80',
+              )}
+              style={{ bottom: `${tick}%` }}
+              aria-hidden="true"
+            />
+          ))}
+
+          <span
+            className="pointer-events-none absolute inset-x-0 border-t border-dashed border-white/90"
+            style={{ bottom: `${pct}%` }}
+            aria-hidden="true"
+          />
+
+          <div className="absolute bottom-3 left-3 rounded-full bg-abyss-950/75 px-2.5 py-1 text-[10px] font-semibold tracking-[0.02em] text-white tnum">
+            {formatInteger(volume)} hm³
+          </div>
+        </div>
+
+        <div
+          className="flex w-8 flex-col justify-between py-0.5 text-[10px] font-medium text-slate-500 tnum"
+          aria-hidden="true"
+        >
+          {ticks.map((tick) => (
+            <span key={tick} className="flex items-center justify-end gap-1">
+              {tick}
+              <span className="h-px w-1.5 bg-slate-300" />
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-3 flex items-center justify-between text-xs text-slate-500 tnum">
+        <span>0 hm³</span>
+        <span>{formatInteger(capacity)} hm³ de capacidad</span>
+      </div>
+    </div>
+  )
+}

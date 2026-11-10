@@ -1,0 +1,88 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Droplets, Shield, ArrowLeft } from "@lucide/astro";
+import { withBase, COOKIE_STORAGE_KEY } from "../lib/site";
+---
+
+<BaseLayout
+  title="Política de Cookies y Privacidad | Embalses de Extremadura"
+  description="Información detallada sobre el uso de cookies analíticas, almacenamiento local y privacidad en Embalses de Extremadura."
+  canonicalPath="cookies/"
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <a href={withBase()} class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-600 hover:text-cyan-600 mb-8 transition-colors">
+      <ArrowLeft size={16} />
+      <span>Volver a la portada</span>
+    </a>
+
+    <header class="mb-10 pb-6 border-b border-slate-200">
+      <div class="flex items-center gap-3 text-cyan-600 font-bold text-sm uppercase tracking-wider mb-2">
+        <Shield size={20} />
+        <span>Transparencia y Privacidad</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Política de Cookies y Privacidad
+      </h1>
+      <p class="mt-3 text-base sm:text-lg text-slate-600">
+        En Embalses de Extremadura apostamos por una experiencia de utilidad pública: sin muros de registro, sin venta de datos y con respeto absoluto a tu privacidad.
+      </p>
+    </header>
+
+    <div class="prose prose-slate max-w-none text-slate-700 space-y-8 text-sm sm:text-base leading-relaxed">
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-3">1. ¿Qué son las cookies y qué utilizamos?</h2>
+        <p>
+          Las cookies son pequeños ficheros de texto que los sitios web guardan en el navegador para recordar tus preferencias de navegación o generar estadísticas agregadas de uso.
+        </p>
+        <p class="mt-2">
+          En <strong>Embalses de Extremadura</strong> no empleamos cookies con fines publicitarios, remarketing ni venta de perfiles a terceros. Exclusivamente utilizamos:
+        </p>
+        <ul class="list-disc pl-5 mt-2 space-y-1">
+          <li><strong>Cookies técnicas y de estado local:</strong> Almacenan en tu navegador si has aceptado o rechazado la medición analítica para recordar tu elección y no molestarte de nuevo en visitas posteriores.</li>
+          <li><strong>Cookies analíticas opcionales (Google Tag Manager / Analytics):</strong> Nos ayudan a conocer de forma anónima y agregada cuáles son los embalses más consultados o si los usuarios acceden desde móvil o escritorio, lo que nos permite mejorar la herramienta.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-3">2. Funcionamiento de Google Consent Mode v2</h2>
+        <p>
+          En estricto cumplimiento del Reglamento General de Protección de Datos (RGPD) y las directrices de la Agencia Española de Protección de Datos (AEPD), aplicamos la especificación técnica <strong>Google Consent Mode v2</strong>:
+        </p>
+        <ul class="list-disc pl-5 mt-3 space-y-2 text-sm">
+          <li>
+            <strong>Visitantes del Espacio Económico Europeo (España y la UE), Reino Unido y Suiza:</strong> Todos los permisos de almacenamiento y procesamiento (<code>analytics_storage</code>, <code>ad_storage</code>, <code>ad_user_data</code> y <code>ad_personalization</code>) se configuran <strong>estrictamente denegados (<code>denied</code>)</strong> por defecto en la cabecera antes de disparar cualquier etiqueta.
+          </li>
+          <li>
+            <strong>Si rechazas o no interactúas con el banner:</strong> No se almacena ninguna cookie de seguimiento en tu dispositivo. Google opera únicamente mediante señales anónimas sin cookies ni identificación individual.
+          </li>
+          <li>
+            <strong>Si pulsas «Aceptar todas»:</strong> Se actualizan las señales de consentimiento a <code>granted</code>, permitiendo registrar métricas agregadas anónimas sin activación de perfiles publicitarios comerciales.
+          </li>
+          <li>
+            <strong>Visitantes fuera del EEE:</strong> El consentimiento se activa de acuerdo con el marco legal internacional de su región de origen.
+          </li>
+        </ul>
+        <p class="mt-3 text-xs text-slate-500">
+          Tu preferencia se guarda en el almacenamiento local de tu navegador (<code>localStorage</code> con la clave <code>{COOKIE_STORAGE_KEY}</code>).
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-3">3. Modificar o revocar tu consentimiento</h2>
+        <p>
+          Puedes revisar, modificar o revocar tu elección en cualquier momento haciendo clic en el siguiente botón:
+        </p>
+        <div class="mt-4">
+          <button
+            type="button"
+            data-cookie-open-modal
+            class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-cyan-400 font-bold text-sm inline-flex items-center gap-2 cursor-pointer transition-colors shadow-sm"
+          >
+            <Droplets size={16} />
+            <span>Configurar preferencias de cookies</span>
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

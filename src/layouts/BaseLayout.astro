@@ -1,0 +1,176 @@
+---
+import "@fontsource-variable/public-sans";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import CookieBanner from "../components/CookieBanner.astro";
+import InstallPrompt from "../components/InstallPrompt.astro";
+import {
+  SITE_DESCRIPTION,
+  SITE_KEYWORDS,
+  SITE_NAME,
+  AUTHOR_NAME,
+  GTM_ID,
+  COOKIE_STORAGE_KEY,
+  absoluteUrl,
+  withBase,
+} from "../lib/site";
+
+interface Props {
+  title: string;
+  description?: string;
+  canonicalPath?: string;
+  ogType?: "website" | "article";
+  jsonLd?: Record<string, unknown> | null;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  canonicalPath = Astro.url.pathname,
+  ogType = "website",
+  jsonLd = null,
+  noindex = false,
+} = Astro.props;
+
+const canonical = absoluteUrl(canonicalPath);
+const ogImage = absoluteUrl("assets/og-image.png");
+const robots = noindex
+  ? "noindex, nofollow"
+  : "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1";
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <!-- Google Consent Mode v2 & Google Tag Manager (GTM) -->
+    <script is:inline define:vars={{ storageKey: COOKIE_STORAGE_KEY }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      var savedConsent = null;
+      try {
+        savedConsent = localStorage.getItem(storageKey);
+      } catch (e) {}
+
+      // 1. Regla específica primero: Territorios bajo RGPD (EEE + Reino Unido + Suiza).
+      // Bloqueo estricto por defecto hasta que el usuario interactúe con el banner.
+      gtag("consent", "default", {
+        analytics_storage: "denied",
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        wait_for_update: 500,
+        region: [
+          "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR",
+          "DE", "GR", "HU", "IS", "IE", "IT", "LV", "LI", "LT", "LU",
+          "MT", "NL", "NO", "PL", "PT", "RO", "SK", "SI", "ES", "SE",
+          "GB", "CH",
+        ],
+      });
+
+      // 2. Regla global (resto del mundo fuera del EEE): concedido por defecto.
+      gtag("consent", "default", {
+        analytics_storage: "granted",
+        ad_storage: "granted",
+        ad_user_data: "granted",
+        ad_personalization: "granted",
+      });
+
+      // 3. Si el usuario ya tomó una decisión previa, se envía 'update' inmediatamente
+      // en <head> antes de que GTM evalúe las etiquetas y pings.
+      if (savedConsent === "granted" || savedConsent === "denied") {
+        gtag("consent", "update", {
+          analytics_storage: savedConsent,
+          ad_storage: savedConsent,
+          ad_user_data: savedConsent,
+          ad_personalization: savedConsent,
+        });
+      }
+
+      gtag("js", new Date());
+    </script>
+    <script async src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={SITE_KEYWORDS.join(", ")} />
+    <meta name="theme-color" content="#f8fafc" />
+    <meta name="robots" content={robots} />
+    <meta name="author" content={AUTHOR_NAME} />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="manifest" href={withBase("site.webmanifest")} />
+    <link rel="sitemap" type="application/xml" href={withBase("sitemap.xml")} />
+    <link rel="icon" type="image/svg+xml" href={withBase("favicon.svg")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("assets/apple-touch-icon.png")} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Estado de los Embalses de Extremadura" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content="Estado de los Embalses de Extremadura" />
+
+    <!-- Geo Tags Extremadura -->
+    <meta name="geo.region" content="ES-EX" />
+    <meta name="geo.placename" content="Extremadura, Badajoz, Cáceres, Mérida" />
+    <meta name="geo.position" content="39.1667;-6.1667" />
+    <meta name="ICBM" content="39.1667, -6.1667" />
+
+    <!-- PWA Service Worker -->
+    <script is:inline>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("/sw.js").catch(function () {});
+        });
+      }
+    </script>
+
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe>
+    </noscript>
+
+    <a
+      href="#contenido"
+      class="sr-only z-50 rounded-lg bg-abyss-950 px-4 py-3 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+    >
+      Saltar al contenido
+    </a>
+    <div class="flex min-h-screen flex-col">
+      <Header />
+      <main id="contenido" class="flex-1">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+    <CookieBanner />
+    <InstallPrompt />
+  </body>
+</html>

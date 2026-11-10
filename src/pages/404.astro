@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { embalses } from "../lib/data";
+import { formatPctCompact } from "../lib/format";
+import { ArrowLeft, ArrowRight, MapPin, SearchX } from "@lucide/astro";
+
+const suggestions = [...embalses].sort((a, b) => b.capacidad_hm3 - a.capacidad_hm3).slice(0, 4);
+const title = "Página no encontrada | Embalses de Extremadura";
+const description = "El enlace puede estar mal escrito o la página haber cambiado de sitio.";
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/404/" noindex>
+  <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+    <div class="text-center">
+      <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-500">
+        <SearchX class="h-7 w-7" aria-hidden="true" />
+      </span>
+      <h1 class="mt-6 text-balance text-3xl font-bold tracking-[-0.035em] text-slate-950 sm:text-4xl">
+        Esta página no existe
+      </h1>
+      <p class="mx-auto mt-3 max-w-xl text-pretty text-[15px] leading-relaxed text-slate-600">{description}</p>
+      <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+        <a href="/" class="inline-flex items-center gap-2 rounded-full bg-blue-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-800">
+          <ArrowLeft class="h-4 w-4" aria-hidden="true" />
+          Volver al panel
+        </a>
+        <a href="/#embalses" class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:text-slate-950">
+          Buscar un embalse
+          <ArrowRight class="h-4 w-4" aria-hidden="true" />
+        </a>
+      </div>
+    </div>
+
+    <section class="mt-14" aria-labelledby="sugerencias-404">
+      <h2 id="sugerencias-404" class="text-center text-sm font-semibold text-slate-500">
+        Quizá buscabas uno de estos embalses
+      </h2>
+      <div class="mt-4 grid gap-3 sm:grid-cols-2">
+        {suggestions.map((embalse) => (
+          <a
+            href={`/embalse/${embalse.slug}/`}
+            class="surface group flex items-center justify-between gap-4 px-4 py-3.5 transition-colors hover:border-slate-300 hover:bg-slate-50"
+          >
+            <div class="min-w-0">
+              <p class="truncate text-sm font-semibold text-slate-900 group-hover:text-blue-800">{embalse.nombre}</p>
+              <p class="mt-0.5 inline-flex items-center gap-1 truncate text-xs text-slate-500">
+                <MapPin class="h-3 w-3" aria-hidden="true" />
+                {embalse.provincia} · {embalse.cuenca}
+              </p>
+            </div>
+            <span class="shrink-0 text-sm font-semibold text-slate-700 tnum">
+              {formatPctCompact(embalse.porcentaje)}
+            </span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
