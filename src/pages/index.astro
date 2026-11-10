@@ -4,9 +4,7 @@ import { ReservoirGauge } from "../components/react/ReservoirGauge";
 import { TrendBadge } from "../components/react/TrendBadge";
 import { WaterBar } from "../components/react/WaterBar";
 import { FilterableGrid } from "../components/react/FilterableGrid";
-import { EmbalseQuiz } from "../components/react/EmbalseQuiz";
 import { aggregate } from "../lib/aggregate";
-import { buildQuiz } from "../lib/quiz";
 import { embalses, embalsesResumen, totalCatalogo, fechaActualizacion } from "../lib/data";
 import { absoluteUrl, AUTHOR_NAME, AUTHOR_URL, SITE, SITE_DESCRIPTION, SITE_NAME } from "../lib/site";
 import {
@@ -27,7 +25,6 @@ import {
   Database,
   Droplets,
   Info,
-  Sparkles,
   WavesHorizontal,
 } from "@lucide/astro";
 
@@ -72,7 +69,6 @@ const other = guadianaLeads
   ? { name: "Tajo", actual: tajo.actual, share: tajoShare }
   : { name: "Guadiana", actual: guadiana.actual, share: guadianaShare };
 const largest = [...embalses].sort((a, b) => b.capacidad_hm3 - a.capacidad_hm3)[0];
-const quizQuestions = buildQuiz(embalsesResumen);
 
 const faqs = [
   {
@@ -490,33 +486,6 @@ const jsonLd = {
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="reto" class="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 sm:px-6 lg:px-8" aria-labelledby="reto-titulo">
-    <div class="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-12">
-      <div>
-        <h2 id="reto-titulo" class="flex items-center gap-3 text-3xl font-bold tracking-[-0.035em] text-slate-950 sm:text-4xl">
-          <Sparkles class="h-6 w-6 shrink-0 text-cyan-600" aria-hidden="true" />
-          El reto del agua
-        </h2>
-        <p class="mt-4 max-w-md text-pretty text-[15px] leading-relaxed text-slate-600 sm:text-base">
-          Cinco preguntas sobre los embalses de Extremadura. Sin registro, con datos reales del último boletín y una
-          explicación después de cada respuesta.
-        </p>
-        <p class="mt-4 max-w-md text-sm leading-relaxed text-slate-500">
-          Se regenera cada martes con el boletín. ¿Cuántas aciertas?
-        </p>
-        <a
-          href="/#embalses"
-          class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 transition-colors hover:text-blue-800"
-        >
-          Repasar el catálogo antes de jugar
-          <ArrowRight class="h-4 w-4" aria-hidden="true" />
-        </a>
-      </div>
-
-      <EmbalseQuiz client:visible questions={quizQuestions} />
     </div>
   </section>
 

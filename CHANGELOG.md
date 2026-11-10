@@ -2,6 +2,21 @@
 
 Todas las versiones relevantes de **Embalses de Extremadura**. El proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [1.0.1] — 2026-11-10
+
+Versión de simplificación y optimización de portada: eliminación del quiz para priorizar la rapidez de consulta y la utilidad pública.
+
+### Cambiado y Optimizado
+
+- **Eliminación del Quiz («El reto del agua»)** ([`src/pages/index.astro`](src/pages/index.astro)):
+  - Retirada la sección interactiva del cuestionario situada encima de las preguntas frecuentes.
+  - Supresión de las dependencias e islas React asociadas (`EmbalseQuiz.tsx` y `quiz.ts`), aligerando el peso total del JavaScript transferido.
+  - Transición visual directa desde la distribución por cuencas hacia las preguntas frecuentes.
+- **Navegación del pie de página ([`src/components/Footer.astro`](src/components/Footer.astro))**:
+  - Eliminado el enlace hacia `#reto` en la columna de exploración.
+- **Suite de Calidad ([`scripts/test.mjs`](scripts/test.mjs))**:
+  - Actualizadas las 42 pruebas automatizadas sin JS, de hidratación y responsive (42/42 superadas).
+
 ## [1.0.0] — 2026-11-10
 
 Primera versión de producción de **Embalses de Extremadura**, desplegada en `https://embalses.antoniohorrillo.com/`.

@@ -31,7 +31,7 @@ Consulta recurrente, semanal o durante episodios de sequía y crecidas. El bolet
 - Catálogo de embalses de Badajoz y Cáceres con dato de volumen disponible (actualmente 42 de 50 en el catálogo de la fuente).
 - Home estática con KPIs de Extremadura, Guadiana y Tajo, balance semanal y catálogo completo en el HTML inicial.
 - Isla React para búsqueda instantánea, filtros por provincia y cuenca, ordenación y estado vacío.
-- Cierre editorial de la home con el reparto del agua por cuenca, un reto de 5 preguntas y 5 preguntas frecuentes con `FAQPage`.
+- Cierre editorial de la home con el reparto del agua por cuenca y 5 preguntas frecuentes con `FAQPage`.
 - Ficha estática en `/embalse/:slug/` con migas de pan, métricas, histórico de hasta 60 semanas, comparación con la cuenca y párrafo SEO.
 - Isla React para el gráfico histórico (4/12/52 semanas) y para la lectura reciente bajo demanda.
 - Datos en vivo solo cuando el visitante pulsa «Actualizar» en la lectura reciente: una petición por ficha, nunca 47 por visita.

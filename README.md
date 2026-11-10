@@ -22,7 +22,7 @@ npm run data         # descarga la API y escribe src/data/embalses.json + public
 npm run build        # genera dist/
 npm run preview      # sirve dist/
 npm run check        # astro check (0 errores)
-npm run test:ui      # 46 comprobaciones con dev o preview levantado
+npm run test:ui      # 42 comprobaciones con dev o preview levantado
 npm run capture      # capturas en .impeccable/review/ (con preview en :4321)
 ```
 
@@ -81,16 +81,17 @@ Si el boletín se publica más tarde de lo previsto, lanza el workflow a mano o 
 
 ## Calidad
 
-- `npm run check` sin errores ni advertencias (34 archivos comprobados).
-- `npm run test:ui` ejecuta **46 comprobaciones automáticas con Playwright**: HTML estático sin JavaScript (42 enlaces de embalses, FAQ y primera pregunta del reto), hidratación de filtros, ordenación y buscador, gráfico histórico, quiz, banner de cookies, modal accesible, Google Tag Manager, Geo-tags, banner de instalación PWA, metadatos, 404 y control estricto de desbordamiento horizontal a 320, 390, 768 y 1440 px.
+- `npm run check` sin errores ni advertencias (32 archivos comprobados).
+- `npm run test:ui` ejecuta **42 comprobaciones automáticas con Playwright**: HTML estático sin JavaScript (42 enlaces de embalses y FAQ), hidratación de filtros, ordenación y buscador, gráfico histórico, banner de cookies, modal accesible, Google Tag Manager, Geo-tags, banner de instalación PWA, metadatos, 404 y control estricto de desbordamiento horizontal a 320, 390, 768 y 1440 px.
 - `npm run capture` genera las capturas de `desktop`, `mobile`, `user-320`, detalle y metodología en `.impeccable/review/`.
 
 ## Releases
 
 Los paquetes de producción y notas de versión se generan en la carpeta `release/`:
 
+- **v1.0.1**: `release/embalses-extremadura-v1.0.1.zip` (SHA256: `36193368d6f28957b600dd358809884fd8bdd234f7d383ab07d7a3a300ef9523`).
 - **v1.0.0**: `release/embalses-extremadura-v1.0.0.zip` (SHA256: `693f2f3adbe78dfc74d1783b61117f7398f43371b39452bcf1442aa36fdf49b0`).
-- Detalles de cambios en [CHANGELOG.md](CHANGELOG.md) y [release/RELEASE_NOTES_v1.0.0.md](release/RELEASE_NOTES_v1.0.0.md).
+- Detalles de cambios en [CHANGELOG.md](CHANGELOG.md) y [release/](release/).
 
 ## Licencia
 
