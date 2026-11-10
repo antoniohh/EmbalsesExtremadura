@@ -1,6 +1,6 @@
 # Embalses de Extremadura
 
-[![Versión](https://img.shields.io/badge/versi%C3%B3n-1.0.2-0284c7?style=for-the-badge)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versi%C3%B3n-1.0.3-0284c7?style=for-the-badge)](CHANGELOG.md)
 [![Astro](https://img.shields.io/badge/Astro-7.4.2-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
 [![React](https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3.3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
@@ -176,10 +176,11 @@ El proyecto está configurado para publicarse de forma automática bajo el domin
 
 ## 📦 Control de Versiones
 
-Versión actual: **1.0.2** · [Historial completo en CHANGELOG.md](CHANGELOG.md)
+Versión actual: **1.0.3** · [Historial completo en CHANGELOG.md](CHANGELOG.md)
 
 | Versión | Fecha | Cambios principales |
 |---|---|---|
+| **1.0.3** | 2026-11-10 | Corrección de microcopia («lleno» en lugar de «llenado») en tarjetas de embalse y reestructuración de la ficha de embalse para eliminar espacios en blanco y equilibrar la rejilla de escritorio |
 | **1.0.2** | 2026-11-10 | Supresión de la sección y página de metodología, simplificación del pie de página (retirada de columna «Datos» redundante) y consolidación de la atribución a fuentes oficiales |
 | **1.0.1** | 2026-11-10 | Eliminación del juego/quiz («El reto del agua») en portada para enfocar la experiencia en la utilidad pública directa y aligerar el bundle JavaScript |
 | **1.0.0** | 2026-11-10 | Lanzamiento inicial: panel autonómico con 42 embalses monitorizados, búsqueda y filtros en vivo, gráficos históricos de hasta 52 semanas, lectura provisional en tiempo real, Google Consent Mode v2 con GTM (`GTM-PT3SNCV5`), PWA y 46 pruebas automatizadas |

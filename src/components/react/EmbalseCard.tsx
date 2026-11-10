@@ -70,7 +70,7 @@ export function EmbalseCard({ embalse, index = 0 }: EmbalseCardProps) {
           <p className="text-[1.7rem] font-semibold leading-none tracking-[-0.035em] text-slate-950 tnum">
             {formatPctCompact(embalse.porcentaje)}
           </p>
-          <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.14em] text-slate-500">llenado</p>
+          <p className="mt-1 text-[10px] font-medium uppercase tracking-[0.14em] text-slate-500">lleno</p>
           <TrendBadge value={embalse.variacion_semana_hm3} className="mt-2" />
         </div>
       </div>

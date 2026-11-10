@@ -359,9 +359,35 @@ const jsonLd = {
         </article>
       </section>
 
-      <section class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(18rem,0.75fr)]">
-        <div class="surface self-start p-5 sm:p-6">
-          <HistoricalChart client:visible data={embalse.historico} />
+      <section class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(18rem,0.75fr)] lg:items-start">
+        <div class="flex flex-col gap-6">
+          <div class="surface p-5 sm:p-6">
+            <HistoricalChart client:visible data={embalse.historico} />
+          </div>
+
+          <section class="surface p-5 sm:p-6" aria-labelledby="significado-dato">
+            <h2 id="significado-dato" class="text-xl font-bold tracking-[-0.025em] text-slate-950">
+              Qué significa este dato
+            </h2>
+            <p class="mt-3 max-w-3xl text-pretty text-[15px] leading-relaxed text-slate-600">{paragraph}</p>
+            <p class="mt-3 max-w-3xl text-pretty text-[15px] leading-relaxed text-slate-600">
+              El porcentaje se calcula sobre la capacidad máxima del embalse y la variación compara las dos últimas
+              semanas publicadas. Los datos proceden del boletín hidrológico del MITECO y pueden estar sujetos a
+              revisión. Esta ficha no sustituye a los avisos oficiales de la Confederación Hidrográfica del{' '}
+              {embalse.cuenca}.
+            </p>
+            <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
+              <a
+                href="https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico/"
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex items-center gap-2 font-medium text-slate-600 transition-colors hover:text-slate-950"
+              >
+                Consultar el boletín oficial del MITECO
+                <ExternalLink class="h-3.5 w-3.5" aria-hidden="true" />
+              </a>
+            </div>
+          </section>
         </div>
 
         <aside class="flex flex-col gap-6">
@@ -434,30 +460,6 @@ const jsonLd = {
             </div>
           </div>
         </aside>
-      </section>
-
-      <section class="surface mt-6 p-5 sm:p-6" aria-labelledby="significado-dato">
-        <h2 id="significado-dato" class="text-xl font-bold tracking-[-0.025em] text-slate-950">
-          Qué significa este dato
-        </h2>
-        <p class="mt-3 max-w-3xl text-pretty text-[15px] leading-relaxed text-slate-600">{paragraph}</p>
-        <p class="mt-3 max-w-3xl text-pretty text-[15px] leading-relaxed text-slate-600">
-          El porcentaje se calcula sobre la capacidad máxima del embalse y la variación compara las dos últimas
-          semanas publicadas. Los datos proceden del boletín hidrológico del MITECO y pueden estar sujetos a
-          revisión. Esta ficha no sustituye a los avisos oficiales de la Confederación Hidrográfica del{' '}
-          {embalse.cuenca}.
-        </p>
-        <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
-          <a
-            href="https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/boletin-hidrologico/"
-            target="_blank"
-            rel="noreferrer"
-            class="inline-flex items-center gap-2 font-medium text-slate-600 transition-colors hover:text-slate-950"
-          >
-            Consultar el boletín oficial del MITECO
-            <ExternalLink class="h-3.5 w-3.5" aria-hidden="true" />
-          </a>
-        </div>
       </section>
 
       {related.length > 0 && (

@@ -2,6 +2,20 @@
 
 Todas las versiones relevantes de **Embalses de Extremadura**. El proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [1.0.3] — 2026-11-10
+
+Versión de refinamiento visual y microcopia: corrección de la etiqueta de llenado en las tarjetas del catálogo y optimización del diseño de la ficha individual para eliminar espacios en blanco.
+
+### Cambiado y Optimizado
+
+- **Microcopia en Tarjetas de Embalse ([`src/components/react/EmbalseCard.tsx`](src/components/react/EmbalseCard.tsx))**:
+  - Sustituida la etiqueta `llenado` por `lleno` bajo el porcentaje principal, adaptando la redacción a una forma natural y concisa en castellano.
+- **Equilibrio Visual en la Ficha Individual ([`src/pages/embalse/[slug].astro`](src/pages/embalse/[slug].astro))**:
+  - Reubicada la tarjeta explicativa «Qué significa este dato» dentro de la columna izquierda bajo la gráfica interactiva y el desglose histórico.
+  - Se equilibra la altura entre ambas columnas en resoluciones de escritorio (`lg`), eliminando el hueco en blanco inferior frente a las tarjetas técnicas y de lectura en tiempo real.
+- **Suite de Calidad ([`scripts/test.mjs`](scripts/test.mjs))**:
+  - Verificación superada con 40/40 pruebas Playwright sin desbordamiento horizontal en anchos de 320, 390, 768 y 1440 px.
+
 ## [1.0.2] — 2026-11-10
 
 Versión de optimización de la experiencia: eliminación de la sección y página de metodología, y saneamiento de enlaces del pie de página para alinear el proyecto con la arquitectura de *Luz Extremadura* y *Combustible Extremadura*.
