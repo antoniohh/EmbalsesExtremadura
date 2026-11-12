@@ -2,6 +2,7 @@
 import "@fontsource-variable/public-sans";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
+import NetworkBar from "../components/NetworkBar.astro";
 import Footer from "../components/Footer.astro";
 import CookieBanner from "../components/CookieBanner.astro";
 import InstallPrompt from "../components/InstallPrompt.astro";
@@ -10,7 +11,7 @@ import {
   SITE_KEYWORDS,
   SITE_NAME,
   AUTHOR_NAME,
-  GTM_ID,
+  GA_ID,
   COOKIE_STORAGE_KEY,
   absoluteUrl,
   withBase,
@@ -44,8 +45,8 @@ const robots = noindex
 <!doctype html>
 <html lang="es" class="scroll-smooth">
   <head>
-    <!-- Google Consent Mode v2 & Google Tag Manager (GTM) -->
-    <script is:inline define:vars={{ storageKey: COOKIE_STORAGE_KEY }}>
+    <!-- Google Consent Mode v2 & Google tag (gtag.js) -->
+    <script is:inline define:vars={{ storageKey: COOKIE_STORAGE_KEY, gaId: GA_ID }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
@@ -81,7 +82,8 @@ const robots = noindex
       });
 
       // 3. Si el usuario ya tomó una decisión previa, se envía 'update' inmediatamente
-      // en <head> antes de que GTM evalúe las etiquetas y pings.
+      // en <head> antes de gtag('config') para que Google registre la transición
+      // default -> update en el parámetro gcd.
       if (savedConsent === "granted" || savedConsent === "denied") {
         gtag("consent", "update", {
           analytics_storage: savedConsent,
@@ -92,8 +94,11 @@ const robots = noindex
       }
 
       gtag("js", new Date());
+      gtag("config", gaId, {
+        anonymize_ip: true,
+      });
     </script>
-    <script async src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}></script>
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -147,16 +152,6 @@ const robots = noindex
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-      <iframe
-        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-        height="0"
-        width="0"
-        style="display:none;visibility:hidden"
-      ></iframe>
-    </noscript>
-
     <a
       href="#contenido"
       class="sr-only z-50 rounded-lg bg-abyss-950 px-4 py-3 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
@@ -164,6 +159,7 @@ const robots = noindex
       Saltar al contenido
     </a>
     <div class="flex min-h-screen flex-col">
+      <NetworkBar currentProject="embalses" />
       <Header />
       <main id="contenido" class="flex-1">
         <slot />

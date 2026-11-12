@@ -1,0 +1,41 @@
+---
+import { clamp, cx } from '../lib/format';
+
+interface Props {
+  value: number;
+  label: string;
+  class?: string;
+  className?: string;
+  height?: 'sm' | 'md';
+  tone?: 'water' | 'cyan' | 'blue';
+}
+
+const { value, label, class: classProp = '', className = '', height = 'sm', tone = 'water' } = Astro.props;
+const customClass = classProp || className;
+
+const safeValue = clamp(value, 0, 100);
+
+const toneClasses = {
+  water: 'water-gradient-soft',
+  cyan: 'bg-cyan-600',
+  blue: 'bg-blue-600',
+};
+---
+
+<div
+  class={cx(
+    'relative w-full overflow-hidden rounded-full bg-slate-100 ring-1 ring-inset ring-slate-200/70',
+    height === 'md' ? 'h-2.5' : 'h-2',
+    customClass,
+  )}
+  role="progressbar"
+  aria-valuenow={Math.round(safeValue * 100) / 100}
+  aria-valuemin={0}
+  aria-valuemax={100}
+  aria-label={label}
+>
+  <div
+    class={cx('water-fill h-full rounded-full', toneClasses[tone])}
+    style={`width: ${safeValue}%; min-width: ${safeValue > 0 ? '4px' : 0};`}
+  />
+</div>

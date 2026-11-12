@@ -1,9 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { HistoricalChart } from "../../components/react/HistoricalChart";
-import { LiveReading } from "../../components/react/LiveReading";
-import { TrendBadge } from "../../components/react/TrendBadge";
-import { WaterBar } from "../../components/react/WaterBar";
+import HistoricalChart from "../../components/HistoricalChart.astro";
+import TrendBadge from "../../components/TrendBadge.astro";
+import WaterBar from "../../components/WaterBar.astro";
 import { aggregate, availableHm3, variationPoints } from "../../lib/aggregate";
 import { data, embalses } from "../../lib/data";
 import { absoluteUrl, AUTHOR_NAME, AUTHOR_URL, SITE } from "../../lib/site";
@@ -362,7 +361,7 @@ const jsonLd = {
       <section class="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(18rem,0.75fr)] lg:items-start">
         <div class="flex flex-col gap-6">
           <div class="surface p-5 sm:p-6">
-            <HistoricalChart client:visible data={embalse.historico} />
+            <HistoricalChart data={embalse.historico} />
           </div>
 
           <section class="surface p-5 sm:p-6" aria-labelledby="significado-dato">
@@ -428,8 +427,6 @@ const jsonLd = {
             </p>
           </div>
 
-          <LiveReading client:idle slug={embalse.slug} initial={embalse.dato_reciente ?? null} />
-
           <div class="surface p-5 sm:p-6">
             <h2 class="text-lg font-semibold tracking-[-0.02em] text-slate-950">En su cuenca</h2>
             <p class="mt-2 text-sm leading-relaxed text-slate-600">
@@ -440,7 +437,7 @@ const jsonLd = {
             <WaterBar
               value={cuencaStats.porcentaje}
               label={`Cuenca del ${embalse.cuenca}: ${formatPctCompact(cuencaStats.porcentaje)} de capacidad`}
-              className="mt-4"
+              class="mt-4"
             />
             <div class="mt-4 flex items-start gap-2 rounded-xl bg-slate-50 px-3.5 py-3 text-sm ring-1 ring-inset ring-slate-100">
               <Gauge class="mt-0.5 h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />

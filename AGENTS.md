@@ -33,21 +33,21 @@ Este documento define las reglas operativas, de arquitectura y de publicación d
 - **Dominio de producción:** `https://embalses.antoniohorrillo.com` (configurado en `public/CNAME`, `astro.config.mjs` y `src/lib/site.ts`)
 - **Repositorio:** `https://github.com/antoniohh/EmbalsesExtremadura`
 - **Autor:** Antonio Horrillo (`https://antoniohorrillo.com`)
-- **Google Tag Manager:** `GTM-PT3SNCV5` (definido en `src/lib/site.ts` y cargado en `src/layouts/BaseLayout.astro`)
+- **Google Analytics 4:** `G-PT3SNCV5` (definido en `src/lib/site.ts` y cargado en `src/layouts/BaseLayout.astro`)
 - **Clave LocalStorage de consentimiento:** `embalses_extremadura_cookie_consent`
-- **Stack:** Astro 7 (`output: "static"`, `trailingSlash: "always"`), React 19 (`@astrojs/react`), Tailwind CSS v4 (`@tailwindcss/vite`), `@lucide/astro`, `lucide-react` y TypeScript estricto sobre Node.js `>= 22.23.4` (`.nvmrc`).
+- **Stack:** Astro 7 puro (`output: "static"`, `trailingSlash: "always"`), Tailwind CSS v4 (`@tailwindcss/vite`), `@lucide/astro`, scripts Vanilla TypeScript cliente y TypeScript estricto sobre Node.js `>= 22.23.4` (`.nvmrc`). Sin dependencias ni islas de React.
 
 ---
 
 ## 3. Arquitectura de Datos y Actualización Semanal
 
-- Los datos semanales provienen de la API de normalización de MapasDeEmbalses.es a partir del Boletín Hidrológico Semanal del MITECO (CC BY 4.0).
+- Los datos provienen de la API de normalización de MapasDeEmbalses.es a partir del Boletín Hidrológico Semanal del MITECO (CC BY 4.0).
 - `scripts/fetch-data.mjs` (`npm run data`):
   1. Filtra los embalses de Badajoz y Cáceres con capacidad y volumen publicados.
   2. Descarga la serie histórica de hasta 60 semanas.
   3. Escribe `src/data/embalses.json` y la copia estática pública `public/datos/embalses.json`.
   4. Genera `public/sitemap.xml` y `public/robots.txt` sincronizados con la fecha del boletín.
-- El workflow `.github/workflows/deploy.yml` se ejecuta automáticamente todos los **martes a las 13:00 y 18:00 UTC** y en cada `push` a `main`.
+- El workflow `.github/workflows/deploy.yml` se ejecuta automáticamente los **martes a las 20:35 UTC (21:35 CET)** (`35 20 * * 2`) y en cada `push` a `main`.
 
 ---
 

@@ -1,0 +1,110 @@
+---
+import { TriangleAlert, ArrowUpRight } from '@lucide/astro';
+import type { EmbalseResumen } from '../types';
+import { formatHm3, formatPctCompact } from '../lib/format';
+import WaterBar from './WaterBar.astro';
+import TrendBadge from './TrendBadge.astro';
+
+interface Props {
+  embalse: EmbalseResumen;
+  index?: number;
+}
+
+const { embalse, index = 0 } = Astro.props;
+const low = embalse.porcentaje < 25;
+const isGuadiana = embalse.cuenca === 'Guadiana';
+---
+
+<article
+  data-embalse-card
+  data-slug={embalse.slug}
+  data-nombre={embalse.nombre.toLowerCase()}
+  data-municipio={(embalse.municipio || '').toLowerCase()}
+  data-rio={(embalse.rio || '').toLowerCase()}
+  data-provincia={embalse.provincia}
+  data-cuenca={embalse.cuenca}
+  data-capacidad={embalse.capacidad_hm3}
+  data-llenado={embalse.porcentaje}
+  data-subida={embalse.variacion_semana_hm3}
+  class="card-in group surface relative flex min-w-0 flex-col p-5 transition-[transform,box-shadow,border-color] duration-300 ease-out hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[var(--shadow-lift)] focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 focus-within:ring-offset-slate-50 motion-reduce:hover:translate-y-0"
+  style={`animation-delay: ${Math.min(index, 8) * 35}ms;`}
+>
+  <div class="flex items-start justify-between gap-3">
+    <div class="min-w-0">
+      <h3 class="text-[17px] font-semibold leading-snug tracking-[-0.018em] text-slate-950">
+        <a
+          href={`/embalse/${embalse.slug}/`}
+          class="outline-none after:absolute after:inset-0 after:rounded-2xl"
+          aria-label={`Ver histórico y detalles del embalse de ${embalse.nombre}`}
+        >
+          {embalse.nombre}
+        </a>
+      </h3>
+
+      <div class="mt-2 flex flex-wrap items-center gap-1.5">
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600 ring-1 ring-inset ring-slate-200">
+          <span class="h-1.5 w-1.5 rounded-full bg-slate-400" aria-hidden="true" />
+          {embalse.provincia}
+        </span>
+        <span
+          class={
+            isGuadiana
+              ? 'inline-flex items-center gap-1.5 rounded-full bg-cyan-50 px-2 py-0.5 text-[11px] font-medium text-cyan-800 ring-1 ring-inset ring-cyan-200/70'
+              : 'inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-medium text-blue-800 ring-1 ring-inset ring-blue-200/70'
+          }
+        >
+          <span class={isGuadiana ? 'h-1.5 w-1.5 rounded-full bg-cyan-500' : 'h-1.5 w-1.5 rounded-full bg-blue-500'} aria-hidden="true" />
+          {embalse.cuenca}
+        </span>
+        {low && (
+          <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-800 ring-1 ring-inset ring-amber-200">
+            <TriangleAlert size={12} class="shrink-0" aria-hidden="true" />
+            Nivel bajo
+          </span>
+        )}
+      </div>
+
+      {(embalse.rio || embalse.municipio) && (
+        <p class="mt-2 truncate text-xs text-slate-500">
+          {[embalse.rio, embalse.municipio].filter(Boolean).join(' · ')}
+        </p>
+      )}
+    </div>
+
+    <div class="shrink-0 text-right">
+      <p class="text-[1.7rem] font-semibold leading-none tracking-[-0.035em] text-slate-950 tnum">
+        {formatPctCompact(embalse.porcentaje)}
+      </p>
+      <p class="mt-1 text-[10px] font-medium uppercase tracking-[0.14em] text-slate-500">lleno</p>
+      <TrendBadge value={embalse.variacion_semana_hm3} class="mt-2" />
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <div class="flex items-baseline justify-between gap-2 text-[13px]">
+      <span class="text-slate-500">Volumen embalsado</span>
+      <span class="font-semibold text-slate-900 tnum">
+        {formatHm3(embalse.actual_hm3)}{' '}
+        <span class="font-normal text-slate-500">/ {formatHm3(embalse.capacidad_hm3)} hm³</span>
+      </span>
+    </div>
+    <WaterBar
+      value={embalse.porcentaje}
+      label={`${embalse.nombre}: ${formatPctCompact(embalse.porcentaje)} de su capacidad`}
+      height="md"
+      class="mt-2.5"
+    />
+  </div>
+
+  <div class="mt-4 flex items-center justify-between gap-2 border-t border-slate-100 pt-3.5">
+    <span class="text-xs text-slate-500 tnum">Capacidad {formatHm3(embalse.capacidad_hm3)} hm³</span>
+    <span class="inline-flex items-center gap-1 text-xs font-semibold text-blue-700 transition-colors group-hover:text-blue-800">
+      Ver histórico y detalles
+      <ArrowUpRight
+        size={14}
+        class="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+        aria-hidden="true"
+      />
+    </span>
+  </div>
+</article>

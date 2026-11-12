@@ -2,6 +2,42 @@
 
 Todas las versiones relevantes de **Embalses de Extremadura**. El proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [1.1.0] — 2026-11-13
+
+Versión de modernización arquitectónica a Astro 7 puro: eliminación completa de dependencias de React e islas de hidratación, integración de la barra de red responsive y enlazado SEO entre proyectos, migración a Google Analytics 4 (`G-PT3SNCV5`) con Consent Mode v2, automatización de despliegue con cron semanal optimizado para los martes por la noche y resolución integral de la indexación y validación de propiedad en Google Search Console.
+
+### Añadido
+
+- **Barra de Red Responsive ([`src/components/NetworkBar.astro`](src/components/NetworkBar.astro))**:
+  - Mini-barra superior persistente (altura fija 34 px) con navegación horizontal responsive, desplazamiento táctil suave (`overflow-x-auto`, sin scrollbar visible) y píldora activa destacada para el proyecto actual.
+  - Enlaza en red los cuatro proyectos: *Luz Extremadura*, *Combustible Extremadura*, *GlucoLuna* y *Embalses de Extremadura*.
+- **Enlazado SEO en Pie de Página ([`src/components/Footer.astro`](src/components/Footer.astro))**:
+  - Añadida la columna «Red de Proyectos» en el pie de página con enlaces descriptivos hacia `luz.antoniohorrillo.com`, `combustible.antoniohorrillo.com` y `glucoluna.antoniohorrillo.com` para potenciar el pagerank temático y SEO cruzado.
+- **Componentes Nativos Astro Puro**:
+  - `src/components/EmbalseCard.astro`: tarjeta estática con atributos `data-*` para filtrado ultrarrápido y accesible en el DOM.
+  - `src/components/FilterBar.astro`: controles accesibles de búsqueda, filtros segmentados por provincia/cuenca y ordenación.
+  - `src/components/HistoricalChart.astro`: gráfico SVG responsivo nativo con selector de escala temporal (4, 12 y 52 semanas) y tooltips interactivos mediante script ligero sin dependencias externas.
+  - `src/components/ReservoirGauge.astro`, `src/components/TrendBadge.astro` y `src/components/WaterBar.astro`: renderizado 100 % estático en servidor.
+  - `src/scripts/filtro-embalses.ts`: lógica cliente de filtrado y ordenación en TypeScript puro (4.8 KB totales).
+- **Compatibilidad con Google Search Console (`public/.nojekyll`)**:
+  - Añadido el archivo `.nojekyll` en la raíz de `public/` para evitar que el parser Jekyll de GitHub Pages descarte los recursos generados en la carpeta `_astro/`, garantizando que todos los rastreadores accedan al CSS y assets sin error 404.
+
+### Cambiado y Optimizado
+
+- **Desinstalación Completa de React 19 y Reducción Radical del Bundle**:
+  - Eliminados `@astrojs/react`, `react`, `react-dom`, `lucide-react`, `@types/react`, `@types/react-dom`, `oxc-transform-react` y la integración `react()` de `astro.config.mjs`.
+  - Supresión de la carpeta `src/components/react/`.
+  - El peso transferido de JavaScript en cliente pasa de ~220 KB a un único script vanilla de 4.8 KB, optimizando el Time to Interactive (TTI), First Contentful Paint (FCP) y Core Web Vitals.
+  - El catálogo de 42 embalses se entrega 100 % en HTML estático sin `<astro-island>` ni serialización masiva de props en el markup.
+- **Migración a Google Analytics 4 y Google Consent Mode v2**:
+  - Sustituido el contenedor de Google Tag Manager (`GTM-PT3SNCV5`) por la etiqueta directa de Google Analytics 4 (`G-PT3SNCV5`) vía `gtag.js`.
+  - Implementación exacta del estándar Google Consent Mode v2 alineado con *Luz Extremadura* y *Combustible Extremadura*: bloqueo estricto por defecto (`analytics_storage: denied`) para España y el Espacio Económico Europeo (EEE), actualización instantánea tras la interacción del usuario y persistencia en `localStorage` (`embalses_extremadura_cookie_consent`).
+  - Resuelto el fallo de validación de propiedad en Google Search Console al coincidir el ID de medición directo de GA4 con la etiqueta en el `<head>`.
+- **Automatización de Despliegues en GitHub Actions ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml))**:
+  - Programación semanal optimizada para los **martes a las 20:35 UTC (21:35 CET / 22:35 CEST)** (`35 20 * * 2`), aplicando un desfase de unas 7 horas respecto a la publicación del MITECO para garantizar datos estables y evitar las colas masivas en GitHub Actions, además de ejecución en cada `push` a la rama `main`.
+- **Eliminación de la Lectura en Tiempo Real (`LiveReading`)**:
+  - Retirada la consulta provisional bajo demanda en las fichas individuales (`/embalse/[slug]/`), al no presentar variación significativa respecto al dato consolidado del boletín oficial.
+
 ## [1.0.3] — 2026-11-10
 
 Versión de refinamiento visual y microcopia: corrección de la etiqueta de llenado en las tarjetas del catálogo y optimización del diseño de la ficha individual para eliminar espacios en blanco.

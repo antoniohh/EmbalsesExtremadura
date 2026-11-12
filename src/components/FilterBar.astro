@@ -1,0 +1,136 @@
+---
+import { ChevronDown, Search, SlidersHorizontal, X } from '@lucide/astro';
+
+interface Props {
+  totalCount: number;
+}
+
+const { totalCount } = Astro.props;
+
+const provincias = ['Todas', 'Badajoz', 'Cáceres'] as const;
+const cuencas = ['Todas', 'Guadiana', 'Tajo'] as const;
+const ordenes = [
+  { value: 'capacidad', label: 'Capacidad máxima' },
+  { value: 'llenado', label: 'Porcentaje de llenado' },
+  { value: 'subida', label: 'Mayor subida semanal' },
+  { value: 'nombre', label: 'Nombre (A–Z)' },
+] as const;
+---
+
+<div class="surface p-4 sm:p-5">
+  <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto_auto_auto] lg:items-end">
+    <!-- Buscador -->
+    <div class="min-w-0">
+      <label for="buscar-embalse" class="eyebrow">
+        Buscar embalse
+      </label>
+      <div class="relative mt-2">
+        <Search
+          size={16}
+          class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+          aria-hidden="true"
+        />
+        <input
+          id="buscar-embalse"
+          type="search"
+          autocomplete="off"
+          placeholder="La Serena, Cíjara, Guadiana…"
+          class="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 pl-10 pr-10 text-sm text-slate-900 placeholder:text-slate-500 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-600/10 [&::-webkit-search-cancel-button]:hidden"
+        />
+        <button
+          type="button"
+          id="btn-borrar-busqueda"
+          class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 h-7 w-7 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+          aria-label="Borrar búsqueda"
+        >
+          <X size={16} aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Filtro Provincia -->
+    <fieldset class="min-w-0">
+      <legend class="eyebrow">Provincia</legend>
+      <div class="mt-2 flex rounded-xl bg-slate-100 p-1 ring-1 ring-inset ring-slate-200/70" role="group">
+        {provincias.map((provincia, idx) => (
+          <button
+            type="button"
+            data-filter-provincia={provincia}
+            aria-pressed={idx === 0 ? "true" : "false"}
+            class={`filter-btn-provincia flex-1 whitespace-nowrap rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all duration-200 sm:flex-none ${
+              idx === 0
+                ? "bg-white text-slate-950 shadow-xs ring-1 ring-slate-200"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            {provincia}
+          </button>
+        ))}
+      </div>
+    </fieldset>
+
+    <!-- Filtro Cuenca -->
+    <fieldset class="min-w-0">
+      <legend class="eyebrow">Cuenca</legend>
+      <div class="mt-2 flex rounded-xl bg-slate-100 p-1 ring-1 ring-inset ring-slate-200/70" role="group">
+        {cuencas.map((cuenca, idx) => (
+          <button
+            type="button"
+            data-filter-cuenca={cuenca}
+            aria-pressed={idx === 0 ? "true" : "false"}
+            class={`filter-btn-cuenca flex-1 whitespace-nowrap rounded-lg px-3 py-1.5 text-[13px] font-medium transition-all duration-200 sm:flex-none ${
+              idx === 0
+                ? "bg-white text-slate-950 shadow-xs ring-1 ring-slate-200"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            {cuenca}
+          </button>
+        ))}
+      </div>
+    </fieldset>
+
+    <!-- Ordenación -->
+    <div class="min-w-0">
+      <label for="orden-embalses" class="eyebrow">
+        Ordenar por
+      </label>
+      <div class="relative mt-2">
+        <select
+          id="orden-embalses"
+          class="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 pl-3.5 pr-9 text-sm text-slate-900 transition-colors focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-600/10 sm:w-52 cursor-pointer"
+        >
+          {ordenes.map((option) => (
+            <option value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        <ChevronDown
+          size={16}
+          class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+          aria-hidden="true"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra de conteo y limpiar -->
+  <div class="mt-4 flex flex-col gap-2 border-t border-slate-100 pt-3.5 text-[13px] sm:flex-row sm:items-center sm:justify-between">
+    <p class="inline-flex items-center gap-2 text-slate-500" aria-live="polite">
+      <SlidersHorizontal size={14} class="shrink-0" aria-hidden="true" />
+      <span id="texto-conteo-embalses">
+        <span id="num-filtrados" class="font-semibold text-slate-900 tnum">{totalCount}</span> embalses disponibles
+      </span>
+    </p>
+
+    <button
+      type="button"
+      id="btn-limpiar-filtros"
+      class="hidden inline-flex items-center gap-1.5 self-start rounded-lg px-2 py-1 text-[13px] font-semibold text-blue-700 transition-colors hover:bg-blue-50 hover:text-blue-800 sm:self-auto cursor-pointer"
+    >
+      <X size={14} aria-hidden="true" />
+      <span>Limpiar filtros</span>
+    </button>
+  </div>
+</div>

@@ -2,10 +2,10 @@ export const SITE = "https://embalses.antoniohorrillo.com";
 export const SITE_NAME = "Embalses de Extremadura";
 export const SITE_SHORT_NAME = "Embalses EX";
 export const SITE_DESCRIPTION =
-  "Estado de los embalses de Extremadura: nivel de agua, capacidad, variación semanal e histórico con datos del boletín del MITECO.";
+  "Estado de los embalses de Extremadura: nivel de agua, capacidad, variación semanal e histórico con datos oficiales del MITECO.";
 export const AUTHOR_NAME = "Antonio Horrillo";
 export const AUTHOR_URL = "https://antoniohorrillo.com";
-export const GTM_ID = "GTM-PT3SNCV5";
+export const GA_ID = "G-PT3SNCV5";
 export const COOKIE_STORAGE_KEY = "embalses_extremadura_cookie_consent";
 
 export const SITE_KEYWORDS = [

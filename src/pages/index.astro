@@ -1,9 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { ReservoirGauge } from "../components/react/ReservoirGauge";
-import { TrendBadge } from "../components/react/TrendBadge";
-import { WaterBar } from "../components/react/WaterBar";
-import { FilterableGrid } from "../components/react/FilterableGrid";
+import ReservoirGauge from "../components/ReservoirGauge.astro";
+import TrendBadge from "../components/TrendBadge.astro";
+import WaterBar from "../components/WaterBar.astro";
+import FilterBar from "../components/FilterBar.astro";
+import EmbalseCard from "../components/EmbalseCard.astro";
+import { ArrowRight, SearchX } from "@lucide/astro";
 import { aggregate } from "../lib/aggregate";
 import { embalses, embalsesResumen, totalCatalogo, fechaActualizacion } from "../lib/data";
 import { absoluteUrl, AUTHOR_NAME, AUTHOR_URL, SITE, SITE_DESCRIPTION, SITE_NAME } from "../lib/site";
@@ -373,8 +375,53 @@ const jsonLd = {
     </div>
 
     <div class="mt-6">
-      <FilterableGrid client:load embalses={embalsesResumen} totalCatalogo={totalCatalogo} />
+      <FilterBar totalCount={embalses.length} />
+
+      <div id="embalses-grid" class="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {embalsesResumen.map((embalse, index) => (
+          <EmbalseCard embalse={embalse} index={index} />
+        ))}
+      </div>
+
+      <!-- Estado vacío -->
+      <div id="embalses-empty-state" class="hidden mt-5 surface flex flex-col items-center px-6 py-14 text-center">
+        <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-500">
+          <SearchX size={24} aria-hidden="true" />
+        </span>
+        <h3 class="mt-5 text-lg font-semibold tracking-[-0.02em] text-slate-950">No encontramos ese embalse</h3>
+        <p id="empty-state-desc" class="mt-2 max-w-md text-sm leading-relaxed text-slate-500">
+          No hay embalses que cumplan los filtros seleccionados. Prueba a cambiar la provincia o la cuenca.
+        </p>
+        <button
+          type="button"
+          id="btn-limpiar-vacio"
+          class="mt-6 inline-flex items-center gap-2 rounded-full bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-blue-800 cursor-pointer"
+        >
+          Limpiar filtros
+          <ArrowRight size={16} aria-hidden="true" />
+        </button>
+        <div class="mt-7 flex flex-wrap items-center justify-center gap-2 text-xs">
+          <span class="text-slate-500">Prueba con:</span>
+          {['La Serena', 'Alcántara', 'Cíjara'].map((name) => (
+            <button
+              type="button"
+              data-sugerencia-btn={name}
+              class="rounded-full border border-slate-200 bg-white px-3 py-1.5 font-medium text-slate-600 transition-colors hover:border-slate-300 hover:text-slate-950 cursor-pointer"
+            >
+              {name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <p class="mt-4 text-right text-xs text-slate-500 tnum">
+        {totalCatalogo} embalses en el catálogo de Extremadura
+      </p>
     </div>
+
+    <script>
+      import "../scripts/filtro-embalses";
+    </script>
   </section>
 
   <section class="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8" aria-label="Nota sobre los datos">

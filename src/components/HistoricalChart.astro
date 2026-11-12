@@ -1,0 +1,468 @@
+---
+import type { HistoricoPunto } from '../types';
+import {
+  clamp,
+  formatChartDate,
+  formatDateShort,
+  formatHm3,
+  formatInteger,
+  formatPctCompact,
+} from '../lib/format';
+
+interface Props {
+  data: HistoricoPunto[];
+}
+
+const { data } = Astro.props;
+
+const hasData = data && data.length >= 2;
+const initialRange = 4;
+const points = hasData ? data.slice(-initialRange) : [];
+const first = points[0];
+const last = points[points.length - 1];
+
+const RANGE_LABELS = [
+  { value: 4, label: '4 sem' },
+  { value: 12, label: '12 sem' },
+  { value: 52, label: '52 sem' },
+];
+
+function smoothPath(pts: Array<{ x: number; y: number }>): string {
+  if (!pts.length) return '';
+  if (pts.length === 1) return `M ${pts[0].x} ${pts[0].y}`;
+  let path = `M ${pts[0].x} ${pts[0].y}`;
+  const tension = 0.85;
+
+  for (let index = 0; index < pts.length - 1; index += 1) {
+    const p0 = pts[index - 1] ?? pts[index];
+    const p1 = pts[index];
+    const p2 = pts[index + 1];
+    const p3 = pts[index + 2] ?? p2;
+    const cp1x = p1.x + ((p2.x - p0.x) / 6) * tension;
+    const cp1y = p1.y + ((p2.y - p0.y) / 6) * tension;
+    const cp2x = p2.x - ((p3.x - p1.x) / 6) * tension;
+    const cp2y = p2.y - ((p3.y - p1.y) / 6) * tension;
+    path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+  }
+
+  return path;
+}
+
+function niceTicks(min: number, max: number, count: number): number[] {
+  const span = max - min;
+  if (span <= 0) return [min];
+  return Array.from({ length: count }, (_, index) => min + (span * index) / (count - 1));
+}
+
+// Cálculo inicial SSR (width 720, height 280)
+const width = 720;
+const height = 280;
+const margin = { top: 20, right: 16, bottom: 34, left: 50 };
+const innerWidth = Math.max(1, width - margin.left - margin.right);
+const innerHeight = Math.max(1, height - margin.top - margin.bottom);
+
+let linePath = '';
+let areaPath = '';
+let yTicks: number[] = [];
+let labelIndexes: number[] = [];
+let chartPoints: Array<{ x: number; y: number }> = [];
+
+if (hasData) {
+  const values = points.map((p) => p.actual_hm3);
+  const rawMin = Math.min(...values);
+  const rawMax = Math.max(...values);
+  const rawSpan = rawMax - rawMin;
+  const padding = rawSpan > 0 ? rawSpan * 0.18 : Math.max(rawMax * 0.05, 1);
+  const yMin = Math.max(0, rawMin - padding);
+  const yMax = rawMax + padding;
+  const ySpan = yMax - yMin || 1;
+
+  chartPoints = points.map((point, index) => ({
+    x: margin.left + (innerWidth * index) / Math.max(1, points.length - 1),
+    y: margin.top + innerHeight - ((point.actual_hm3 - yMin) / ySpan) * innerHeight,
+  }));
+
+  linePath = smoothPath(chartPoints);
+  areaPath = `${linePath} L ${chartPoints[chartPoints.length - 1].x} ${margin.top + innerHeight} L ${chartPoints[0].x} ${
+    margin.top + innerHeight
+  } Z`;
+  yTicks = niceTicks(yMin, yMax, 4);
+
+  const labelCount = clamp(Math.floor(width / 86), 2, 6);
+  labelIndexes = Array.from(
+    new Set(
+      Array.from({ length: labelCount }, (_, index) =>
+        Math.round((index * (points.length - 1)) / Math.max(1, labelCount - 1)),
+      ),
+    ),
+  );
+}
+---
+
+{!hasData ? (
+  <div>
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        <h2 class="text-lg font-semibold tracking-[-0.02em] text-slate-950">Evolución del agua embalsada</h2>
+        <p class="mt-1 text-sm text-slate-500">Serie histórica semanal</p>
+      </div>
+    </div>
+    <div class="mt-6 flex min-h-48 flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50/60 px-6 text-center">
+      <p class="text-sm font-semibold text-slate-700">Todavía no hay una serie histórica para este embalse.</p>
+      <p class="mt-1 max-w-md text-sm text-slate-500">
+        El dato actual está disponible en la ficha, pero la fuente no ofrece semanas anteriores comparables.
+      </p>
+    </div>
+  </div>
+) : (
+  <div class="historical-chart-root" data-chart-raw={JSON.stringify(data)}>
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        <h2 class="text-lg font-semibold tracking-[-0.02em] text-slate-950">Evolución del agua embalsada</h2>
+        <p class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-500">
+          <span class="chart-summary-text">
+            {points.length} semanas con dato · {formatDateShort(first.fecha)} – {formatDateShort(last.fecha)}
+          </span>
+        </p>
+      </div>
+
+      <div
+        class="inline-flex self-start rounded-xl bg-slate-100 p-1 ring-1 ring-inset ring-slate-200/70"
+        role="group"
+        aria-label="Periodo del histórico"
+      >
+        {RANGE_LABELS.map((option) => (
+          <button
+            type="button"
+            data-chart-range={option.value}
+            aria-pressed={option.value === initialRange ? "true" : "false"}
+            class={`chart-range-btn rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-all duration-200 cursor-pointer ${
+              option.value === initialRange
+                ? "bg-white text-slate-950 shadow-xs ring-1 ring-slate-200"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Contenedor interactivo del gráfico SVG -->
+    <div
+      class="chart-container relative mt-4 h-60 w-full sm:h-72 focus:outline-none"
+      tabindex="0"
+      role="img"
+      aria-label={`Gráfica de evolución del volumen embalsado entre ${formatDateShort(first.fecha)} y ${formatDateShort(last.fecha)}.`}
+    >
+      <svg
+        class="chart-svg h-full w-full overflow-visible"
+        viewBox={`0 0 ${width} ${height}`}
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="water-area" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.34" />
+            <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.02" />
+          </linearGradient>
+        </defs>
+
+        <!-- Eje Y ticks -->
+        <g class="y-ticks-group">
+          {yTicks.map((tick) => {
+            const y = margin.top + innerHeight - ((tick - yTicks[0]) / (yTicks[yTicks.length - 1] - yTicks[0] || 1)) * innerHeight;
+            return (
+              <g class="text-[11px] text-slate-500">
+                <line
+                  x1={margin.left}
+                  y1={y}
+                  x2={width - margin.right}
+                  y2={y}
+                  stroke="#e2e8f0"
+                  stroke-dasharray="3 3"
+                />
+                <text x={margin.left - 8} y={y + 3} text-anchor="end" fill="currentColor" class="tnum">
+                  {formatInteger(tick)}
+                </text>
+              </g>
+            );
+          })}
+        </g>
+
+        <!-- Área y línea de datos -->
+        <path class="chart-area" d={areaPath} fill="url(#water-area)" />
+        <path
+          class="chart-line"
+          d={linePath}
+          fill="none"
+          stroke="#0891b2"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <!-- Eje X etiquetas -->
+        <g class="x-labels-group">
+          {labelIndexes.map((idx) => {
+            const pt = chartPoints[idx];
+            const pData = points[idx];
+            if (!pt || !pData) return null;
+            return (
+              <text
+                x={pt.x}
+                y={height - 10}
+                text-anchor="middle"
+                fill="currentColor"
+                class="text-[11px] text-slate-500 tnum"
+              >
+                {formatChartDate(pData.fecha)}
+              </text>
+            );
+          })}
+        </g>
+
+        <!-- Línea y punto activo (tooltip) -->
+        <g class="active-marker-group hidden">
+          <line
+            class="active-vline"
+            x1="0"
+            y1={margin.top}
+            x2="0"
+            y2={margin.top + innerHeight}
+            stroke="#0e7490"
+            stroke-width="1.5"
+            stroke-dasharray="2 2"
+          />
+          <circle class="active-circle-outer" cx="0" cy="0" r="6" fill="#0891b2" fill-opacity="0.25" />
+          <circle class="active-circle-inner" cx="0" cy="0" r="3.5" fill="#0891b2" stroke="#ffffff" stroke-width="1.5" />
+        </g>
+      </svg>
+
+      <!-- Tooltip HTML flotante -->
+      <div
+        class="chart-tooltip hidden pointer-events-none absolute z-10 rounded-xl border border-slate-200 bg-white/95 p-2.5 shadow-lg backdrop-blur-xs transition-opacity duration-150"
+        style="transform: translate(-50%, -100%); margin-top: -10px;"
+      >
+        <p class="tooltip-date text-[11px] font-medium text-slate-500"></p>
+        <p class="tooltip-volume text-sm font-bold text-slate-950 tnum"></p>
+        <p class="tooltip-pct text-xs font-semibold text-cyan-700 tnum"></p>
+      </div>
+    </div>
+
+    <!-- Tabla accesible en desplegable -->
+    <details class="mt-6 border-t border-slate-100 pt-4 text-xs text-slate-600">
+      <summary class="cursor-pointer font-medium text-slate-700 transition-colors hover:text-slate-950">
+        Ver datos en tabla ({data.length} semanas disponibles)
+      </summary>
+      <div class="mt-3 max-h-72 overflow-y-auto rounded-xl border border-slate-200 bg-slate-50/50">
+        <table class="w-full text-left">
+          <caption class="sr-only">Serie histórica completa de volumen y llenado del embalse</caption>
+          <thead class="sticky top-0 bg-slate-100 text-[11px] font-semibold uppercase tracking-wider text-slate-700">
+            <tr>
+              <th scope="col" class="px-4 py-2">Fecha</th>
+              <th scope="col" class="px-4 py-2 text-right">Volumen</th>
+              <th scope="col" class="px-4 py-2 text-right">Llenado</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 bg-white">
+            {[...data].reverse().map((point) => (
+              <tr>
+                <th scope="row" class="px-4 py-2 font-normal text-slate-600">
+                  {formatDateShort(point.fecha)}
+                </th>
+                <td class="px-4 py-2 text-right text-slate-900 tnum">{formatHm3(point.actual_hm3)}</td>
+                <td class="px-4 py-2 text-right text-slate-600 tnum">{formatPctCompact(point.porcentaje)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+)}
+
+<script>
+  // Script nativo e interactivo para cambiar rangos (4, 12, 52 sem) y mostrar tooltips
+  function initHistoricalCharts() {
+    document.querySelectorAll<HTMLElement>('.historical-chart-root').forEach((root) => {
+      const rawAttr = root.dataset.chartRaw;
+      if (!rawAttr) return;
+      const allData: Array<{ fecha: string; actual_hm3: number; porcentaje: number }> = JSON.parse(rawAttr);
+      if (!allData || allData.length < 2) return;
+
+      const container = root.querySelector<HTMLElement>('.chart-container');
+      const svg = root.querySelector<SVGSVGElement>('.chart-svg');
+      const areaPathEl = root.querySelector<SVGPathElement>('.chart-area');
+      const linePathEl = root.querySelector<SVGPathElement>('.chart-line');
+      const summaryText = root.querySelector<HTMLElement>('.chart-summary-text');
+      const tooltip = root.querySelector<HTMLElement>('.chart-tooltip');
+      const markerGroup = root.querySelector<SVGGElement>('.active-marker-group');
+      const vline = root.querySelector<SVGLineElement>('.active-vline');
+      const circleOuter = root.querySelector<SVGCircleElement>('.active-circle-outer');
+      const circleInner = root.querySelector<SVGCircleElement>('.active-circle-inner');
+      const rangeBtns = root.querySelectorAll<HTMLButtonElement>('.chart-range-btn');
+
+      let currentRange = 4;
+
+      function render(rangeVal: number) {
+        currentRange = rangeVal;
+        const pts = allData.slice(-rangeVal);
+        const width = 720;
+        const height = 280;
+        const margin = { top: 20, right: 16, bottom: 34, left: 50 };
+        const innerW = Math.max(1, width - margin.left - margin.right);
+        const innerH = Math.max(1, height - margin.top - margin.bottom);
+
+        const values = pts.map((p) => p.actual_hm3);
+        const rawMin = Math.min(...values);
+        const rawMax = Math.max(...values);
+        const rawSpan = rawMax - rawMin;
+        const padding = rawSpan > 0 ? rawSpan * 0.18 : Math.max(rawMax * 0.05, 1);
+        const yMin = Math.max(0, rawMin - padding);
+        const yMax = rawMax + padding;
+        const ySpan = yMax - yMin || 1;
+
+        const coords = pts.map((point, index) => ({
+          x: margin.left + (innerW * index) / Math.max(1, pts.length - 1),
+          y: margin.top + innerH - ((point.actual_hm3 - yMin) / ySpan) * innerH,
+        }));
+
+        // Función de suavizado
+        function smooth(pointsList: Array<{ x: number; y: number }>) {
+          if (!pointsList.length) return '';
+          if (pointsList.length === 1) return `M ${pointsList[0].x} ${pointsList[0].y}`;
+          let pth = `M ${pointsList[0].x} ${pointsList[0].y}`;
+          const tension = 0.85;
+          for (let i = 0; i < pointsList.length - 1; i++) {
+            const p0 = pointsList[i - 1] ?? pointsList[i];
+            const p1 = pointsList[i];
+            const p2 = pointsList[i + 1];
+            const p3 = pointsList[i + 2] ?? p2;
+            const cp1x = p1.x + ((p2.x - p0.x) / 6) * tension;
+            const cp1y = p1.y + ((p2.y - p0.y) / 6) * tension;
+            const cp2x = p2.x - ((p3.x - p1.x) / 6) * tension;
+            const cp2y = p2.y - ((p3.y - p1.y) / 6) * tension;
+            pth += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
+          }
+          return pth;
+        }
+
+        const lPath = smooth(coords);
+        const aPath = `${lPath} L ${coords[coords.length - 1].x} ${margin.top + innerH} L ${coords[0].x} ${margin.top + innerH} Z`;
+
+        if (areaPathEl) areaPathEl.setAttribute('d', aPath);
+        if (linePathEl) linePathEl.setAttribute('d', lPath);
+
+        // Actualizar resumen
+        if (summaryText && pts.length > 0) {
+          const firstDate = pts[0].fecha;
+          const lastDate = pts[pts.length - 1].fecha;
+          summaryText.textContent = `${pts.length} semanas con dato · ${firstDate} – ${lastDate}`;
+        }
+
+        // Actualizar botones
+        rangeBtns.forEach((btn) => {
+          const isAct = Number(btn.dataset.chartRange) === rangeVal;
+          btn.setAttribute('aria-pressed', isAct ? 'true' : 'false');
+          btn.className = `chart-range-btn rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-all duration-200 cursor-pointer ${
+            isAct
+              ? 'bg-white text-slate-950 shadow-xs ring-1 ring-slate-200'
+              : 'text-slate-600 hover:text-slate-900'
+          }`;
+        });
+
+        // Ocultar marcador al cambiar de rango
+        hideTooltip();
+      }
+
+      function showTooltip(index: number) {
+        const pts = allData.slice(-currentRange);
+        if (index < 0 || index >= pts.length) return;
+        const target = pts[index];
+
+        const width = 720;
+        const height = 280;
+        const margin = { top: 20, right: 16, bottom: 34, left: 50 };
+        const innerW = Math.max(1, width - margin.left - margin.right);
+        const innerH = Math.max(1, height - margin.top - margin.bottom);
+
+        const values = pts.map((p) => p.actual_hm3);
+        const rawMin = Math.min(...values);
+        const rawMax = Math.max(...values);
+        const padding = (rawMax - rawMin) > 0 ? (rawMax - rawMin) * 0.18 : Math.max(rawMax * 0.05, 1);
+        const yMin = Math.max(0, rawMin - padding);
+        const yMax = rawMax + padding;
+        const ySpan = yMax - yMin || 1;
+
+        const x = margin.left + (innerW * index) / Math.max(1, pts.length - 1);
+        const y = margin.top + innerH - ((target.actual_hm3 - yMin) / ySpan) * innerH;
+
+        if (markerGroup) markerGroup.classList.remove('hidden');
+        if (vline) {
+          vline.setAttribute('x1', String(x));
+          vline.setAttribute('x2', String(x));
+        }
+        if (circleOuter) {
+          circleOuter.setAttribute('cx', String(x));
+          circleOuter.setAttribute('cy', String(y));
+        }
+        if (circleInner) {
+          circleInner.setAttribute('cx', String(x));
+          circleInner.setAttribute('cy', String(y));
+        }
+
+        if (tooltip && container) {
+          const pctX = (x / width) * 100;
+          const pctY = (y / height) * 100;
+
+          tooltip.style.left = `${pctX}%`;
+          tooltip.style.top = `${pctY}%`;
+          const dateEl = tooltip.querySelector('.tooltip-date');
+          const volEl = tooltip.querySelector('.tooltip-volume');
+          const pctEl = tooltip.querySelector('.tooltip-pct');
+
+          if (dateEl) dateEl.textContent = target.fecha;
+          if (volEl) volEl.textContent = `${target.actual_hm3.toFixed(2)} hm³`;
+          if (pctEl) pctEl.textContent = `${target.porcentaje.toFixed(2)} %`;
+
+          tooltip.classList.remove('hidden');
+        }
+      }
+
+      function hideTooltip() {
+        if (markerGroup) markerGroup.classList.add('hidden');
+        if (tooltip) tooltip.classList.add('hidden');
+      }
+
+      // Eventos de botones
+      rangeBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const r = Number(btn.dataset.chartRange);
+          if (r) render(r);
+        });
+      });
+
+      // Eventos de ratón sobre SVG
+      if (svg) {
+        svg.addEventListener('pointermove', (e) => {
+          const rect = svg.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const ratio = Math.max(0, Math.min(1, x / rect.width));
+          const pts = allData.slice(-currentRange);
+          const idx = Math.round(ratio * (pts.length - 1));
+          showTooltip(idx);
+        });
+
+        svg.addEventListener('pointerleave', hideTooltip);
+      }
+    });
+  }
+
+  // Inicializar al cargar
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHistoricalCharts);
+  } else {
+    initHistoricalCharts();
+  }
+</script>

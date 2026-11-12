@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Astro 7 con `output: "static"` y React 19 como islas (`@astrojs/react`). Tailwind CSS 4, Lucide y TypeScript estricto. Los datos se descargan en el build con un script de Node desde la API pública de MapasDeEmbalses.es (normalización del Boletín Hidrológico del MITECO). El sitio se publica en GitHub Pages con GitHub Actions y se regenera cada martes.
+Astro 7 puro con `output: "static"` sin dependencias de React ni islas de hidratación. Tailwind CSS 4, `@lucide/astro` y TypeScript estricto. Los datos se descargan en el build con un script de Node desde la API pública de MapasDeEmbalses.es (normalización del Boletín Hidrológico del MITECO). El sitio se publica en GitHub Pages con GitHub Actions y se regenera semanalmente cada martes noche.
 
 ## Users
 
@@ -20,22 +20,22 @@ Ofrecer un panel público, claro y actualizado del estado de los embalses de Bad
 
 ## Positioning
 
-No es un mapa genérico de España: es una lectura extremeña, curada y explicada. Combina el dato semanal oficial del MITECO con una interfaz de utilidad pública que traduce cada cifra a contexto (cuenca, provincia, evolución y comparación), conservando siempre la trazabilidad de la fuente. A diferencia de un cuadro de mando SPA, cada ficha se sirve como HTML estático indexable y solo hidrata las islas que necesitan interacción.
+No es un mapa genérico de España: es una lectura extremeña, curada y explicada. Combina el dato oficial del MITECO con una interfaz de utilidad pública que traduce cada cifra a contexto (cuenca, provincia, evolución y comparación), conservando siempre la trazabilidad de la fuente. A diferencia de un cuadro de mando SPA, cada ficha y tarjeta se sirve como HTML estático 100 % indexable con filtrado en cliente mediante TypeScript ligero sin dependencias.
 
 ## Operating Context
 
-Consulta recurrente, semanal o durante episodios de sequía y crecidas. El boletín del MITECO se publica los martes; un flujo de GitHub Actions descarga los datos, genera el snapshot, compila las 42 fichas y despliega en GitHub Pages. La fecha de referencia se muestra siempre. La ficha incluye una lectura reciente opcional del organismo de cuenca, consultada bajo demanda y marcada como provisional.
+Consulta recurrente, semanal o durante episodios de sequía y crecidas. Un flujo de GitHub Actions con cron semanal (martes a las 20:35 UTC / 21:35 CET) descarga los datos, genera el snapshot, compila las 42 fichas y despliega en GitHub Pages. La fecha de referencia se muestra siempre.
 
 ## Capabilities and Constraints
 
 - Catálogo de embalses de Badajoz y Cáceres con dato de volumen disponible (actualmente 42 de 50 en el catálogo de la fuente).
-- Home estática con KPIs de Extremadura, Guadiana y Tajo, balance semanal y catálogo completo en el HTML inicial.
-- Isla React para búsqueda instantánea, filtros por provincia y cuenca, ordenación y estado vacío.
+- Home estática con KPIs de Extremadura, Guadiana y Tajo, balance hídrico y catálogo completo en el HTML inicial.
+- Filtrado y búsqueda instantánea en cliente con TypeScript vanilla sobre atributos `data-*` en el DOM, sin sobrecarga de frameworks.
 - Cierre editorial de la home con el reparto del agua por cuenca y 5 preguntas frecuentes con `FAQPage`.
 - Ficha estática en `/embalse/:slug/` con migas de pan, métricas, histórico de hasta 60 semanas, comparación con la cuenca y párrafo SEO.
-- Isla React para el gráfico histórico (4/12/52 semanas) y para la lectura reciente bajo demanda.
-- Datos en vivo solo cuando el visitante pulsa «Actualizar» en la lectura reciente: una petición por ficha, nunca 47 por visita.
-- Cumplimiento de privacidad RGPD/AEPD con Google Consent Mode v2 delimitado por región y Google Tag Manager (`GTM-PT3SNCV5`): bloqueo estricto por defecto en el EEE y página dedicada en `/cookies/`.
+- Gráfico histórico responsivo (`HistoricalChart.astro`) nativo en SVG con selectores de escala (4/12/52 semanas).
+- Barra de red (`NetworkBar.astro`) y enlazado SEO en pie de página conectando los 4 proyectos de la red de Antonio Horrillo.
+- Cumplimiento de privacidad RGPD/AEPD con Google Consent Mode v2 delimitado por región y Google Analytics 4 (`G-PT3SNCV5`): bloqueo estricto por defecto en el EEE y página dedicada en `/cookies/`.
 - Soporte PWA con Web App Manifest, Service Worker offline (`sw.js`) y banner instalable adaptado a móvil (`InstallPrompt.astro`).
 - La fuente original es el MITECO (CC BY 4.0); MapasDeEmbalses.es exige atribución pública del servicio de normalización y conservar la fuente original.
 - Los porcentajes agregados se calculan ponderando por capacidad, no como media simple.
@@ -55,7 +55,7 @@ Nombre de trabajo: Embalses de Extremadura. Tono de utilidad pública: preciso, 
 ## Product Principles
 
 1. El dato primero: cifra, unidad, fecha y fuente siempre visibles juntos.
-2. SEO estructural: el contenido principal y los enlaces existen en el HTML inicial, no solo después de hidratar React.
+2. SEO estructural: el contenido principal y los enlaces existen en el HTML inicial con arquitectura Astro pura sin dependencias de frameworks cliente.
 3. La tendencia importa tanto como el nivel: subida, bajada y variación semanal tienen el mismo rango visual que el porcentaje.
 4. Extremadura no es un apéndice de España: la jerarquía, el lenguaje y los agregados son extremeños.
 5. Transparencia ante la incertidumbre: si el dato es de respaldo, está desactualizado o falta, se dice.

@@ -1,0 +1,49 @@
+---
+import { Minus, TrendingDown, TrendingUp } from '@lucide/astro';
+import { cx, formatDecimal, formatSignedHm3 } from '../lib/format';
+
+interface Props {
+  value: number;
+  size?: 'sm' | 'md' | 'lg';
+  showRange?: boolean;
+  class?: string;
+  className?: string;
+}
+
+const { value, size = 'sm', showRange = false, class: classProp = '', className = '' } = Astro.props;
+const customClass = classProp || className;
+
+const positive = value > 0.0001;
+const negative = value < -0.0001;
+const tone = positive
+  ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+  : negative
+    ? 'border-rose-200 bg-rose-50 text-rose-700'
+    : 'border-slate-200 bg-slate-50 text-slate-600';
+
+const sizeClasses =
+  size === 'lg'
+    ? 'gap-2 rounded-xl px-3 py-2 text-sm'
+    : size === 'md'
+      ? 'gap-1.5 rounded-lg px-2.5 py-1.5 text-xs'
+      : 'gap-1 rounded-md px-2 py-1 text-[11px]';
+
+const label = positive
+  ? `Subida de ${formatDecimal(value)} hectómetros cúbicos en la última semana`
+  : negative
+    ? `Bajada de ${formatDecimal(Math.abs(value))} hectómetros cúbicos en la última semana`
+    : 'Sin variación en la última semana';
+
+const iconSize = size === 'lg' ? 16 : size === 'md' ? 14 : 12;
+---
+
+<span
+  class={cx('inline-flex items-center font-medium border tnum', tone, sizeClasses, customClass)}
+  title={label}
+>
+  {positive && <TrendingUp size={iconSize} class="shrink-0" aria-hidden="true" />}
+  {negative && <TrendingDown size={iconSize} class="shrink-0" aria-hidden="true" />}
+  {!positive && !negative && <Minus size={iconSize} class="shrink-0" aria-hidden="true" />}
+  <span>{formatSignedHm3(value)} hm³</span>
+  {showRange && <span class="text-slate-500 font-normal">/ sem</span>}
+</span>

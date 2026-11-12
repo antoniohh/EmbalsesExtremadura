@@ -4,10 +4,10 @@ on:
   push:
     branches: [main]
   schedule:
-    # El boletín del MITECO se publica los martes. 13:00 UTC = 14:00 CET.
-    # Segundo intento por la tarde por si la fuente tarda o GitHub encola el job.
-    - cron: "0 13 * * 2"
-    - cron: "0 18 * * 2"
+    # Actualización semanal: martes a las 20:35 UTC (21:35 CET / 22:35 CEST)
+    # Retraso programado de unas 7 horas respecto a la publicación del MITECO
+    # para garantizar datos disponibles y evitar saturación en GitHub Actions.
+    - cron: "35 20 * * 2"
   workflow_dispatch:
 
 permissions:
