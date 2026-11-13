@@ -2,6 +2,23 @@
 
 Todas las versiones relevantes de **Embalses de Extremadura**. El proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [1.1.2] — 2026-11-13
+
+Corrección integral de la etiqueta de Google Analytics 4 (`gtag.js`), activación del flujo dinámico de Google Consent Mode v2 al interactuar con el banner de cookies y habilitación de soporte para verificación de propiedad en Google Search Console.
+
+### Arreglado y Cambiado
+
+- **Corrección de Google Analytics 4 y Google Tag ([`src/layouts/BaseLayout.astro`](src/layouts/BaseLayout.astro))**:
+  - Eliminado el encapsulamiento de `define:vars` que confinaba la función `gtag()` en una clausura privada e impedía la definición de `window.gtag` en el navegador.
+  - Declaración global explícita `window.gtag = gtag` e inyección del string literal `"G-MK7WEP5HN0"` en el HTML estático para garantizar la detección por rastreadores de Google y herramientas como Tag Assistant.
+  - Resolución del problema de validación en Google Search Console: el verificador de GA4 ahora detecta la coincidencia exacta de `gtag('config', 'G-MK7WEP5HN0')` en `<head>`.
+- **Sincronización Dinámica de Consentimiento ([`src/components/CookieBanner.astro`](src/components/CookieBanner.astro))**:
+  - Supresión de `define:vars` y corrección de tipados de TypeScript para eventos del DOM.
+  - Ejecución garantizada de `window.gtag('consent', 'update', ...)` al hacer clic en «Aceptar todas» o guardar preferencias.
+  - Disparo de evento `page_view` al conceder consentimiento para reflejar la visita en tiempo real en GA4 desde la primera interacción del usuario.
+- **Soporte de Verificación GSC ([`src/lib/site.ts`](src/lib/site.ts) y [`src/layouts/BaseLayout.astro`](src/layouts/BaseLayout.astro))**:
+  - Añadida la constante `GOOGLE_SITE_VERIFICATION` y soporte para la metaetiqueta `<meta name="google-site-verification" content="..." />` como vía alternativa directa para dar de alta la propiedad en Google Search Console.
+
 ## [1.1.1] — 2026-11-13
 
 Actualización de la configuración de analítica web: integración del ID de medición oficial de Google Analytics 4 (`G-MK7WEP5HN0`) con el cargador estándar `gtag/js` y Google Consent Mode v2, alineado con la arquitectura de *Luz Extremadura* y *Combustible Extremadura*.

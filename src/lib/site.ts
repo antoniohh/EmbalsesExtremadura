@@ -7,6 +7,7 @@ export const AUTHOR_NAME = "Antonio Horrillo";
 export const AUTHOR_URL = "https://antoniohorrillo.com";
 export const GA_ID = "G-MK7WEP5HN0";
 export const COOKIE_STORAGE_KEY = "embalses_extremadura_cookie_consent";
+export const GOOGLE_SITE_VERIFICATION = ""; // Código opcional para verificación de propiedad en Google Search Console
 
 export const SITE_KEYWORDS = [
   "embalses extremadura",

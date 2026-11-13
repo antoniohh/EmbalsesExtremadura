@@ -11,8 +11,7 @@ import {
   SITE_KEYWORDS,
   SITE_NAME,
   AUTHOR_NAME,
-  GA_ID,
-  COOKIE_STORAGE_KEY,
+  GOOGLE_SITE_VERIFICATION,
   absoluteUrl,
   withBase,
 } from "../lib/site";
@@ -24,6 +23,7 @@ interface Props {
   ogType?: "website" | "article";
   jsonLd?: Record<string, unknown> | null;
   noindex?: boolean;
+  googleSiteVerification?: string;
 }
 
 const {
@@ -33,6 +33,7 @@ const {
   ogType = "website",
   jsonLd = null,
   noindex = false,
+  googleSiteVerification = GOOGLE_SITE_VERIFICATION,
 } = Astro.props;
 
 const canonical = absoluteUrl(canonicalPath);
@@ -46,15 +47,16 @@ const robots = noindex
 <html lang="es" class="scroll-smooth">
   <head>
     <!-- Google Consent Mode v2 & Google tag (gtag.js) -->
-    <script is:inline define:vars={{ storageKey: COOKIE_STORAGE_KEY, gaId: GA_ID }}>
+    <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
+      window.gtag = gtag;
 
       var savedConsent = null;
       try {
-        savedConsent = localStorage.getItem(storageKey);
+        savedConsent = localStorage.getItem("embalses_extremadura_cookie_consent");
       } catch (e) {}
 
       // 1. Regla específica primero: Territorios bajo RGPD (EEE + Reino Unido + Suiza).
@@ -94,11 +96,15 @@ const robots = noindex
       }
 
       gtag("js", new Date());
-      gtag("config", gaId, {
+      gtag("config", "G-MK7WEP5HN0", {
         anonymize_ip: true,
       });
     </script>
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MK7WEP5HN0"></script>
+
+    {googleSiteVerification && (
+      <meta name="google-site-verification" content={googleSiteVerification} />
+    )}
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

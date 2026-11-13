@@ -200,10 +200,11 @@ El proyecto está configurado para publicarse de forma automática bajo el domin
 
 ## 📦 Control de Versiones
 
-Versión actual: **1.1.1** · [Historial completo en CHANGELOG.md](CHANGELOG.md)
+Versión actual: **1.1.2** · [Historial completo en CHANGELOG.md](CHANGELOG.md)
 
 | Versión | Fecha | Cambios principales |
 |---|---|---|
+| **1.1.2** | 2026-11-13 | Corrección de Google Analytics 4 (`window.gtag` accesible y literal `G-MK7WEP5HN0`), actualización reactiva de Google Consent Mode v2 con envío de `page_view` tras consentimiento y soporte para verificación en Google Search Console |
 | **1.1.1** | 2026-11-13 | Actualización de la etiqueta de Google Analytics 4 (`G-MK7WEP5HN0`) con carga estándar mediante `gtag/js` alineada con Luz y Combustible Extremadura |
 | **1.1.0** | 2026-11-13 | Transformación completa a Astro 7 puro (eliminación de React 19, islas e inyección de props), barra de red responsive `NetworkBar.astro`, enlazado SEO en pie de página con Luz, Combustible y GlucoLuna, migración a Google Analytics 4 con Consent Mode v2, cron semanal ajustado a los martes por la noche (`35 20 * * 2`), retirada de lectura en tiempo real y soporte `.nojekyll` para indexación impecable en GSC |
 | **1.0.3** | 2026-11-10 | Corrección de microcopia («lleno» en lugar de «llenado») en tarjetas de embalse y reestructuración de la ficha de embalse para eliminar espacios en blanco y equilibrar la rejilla de escritorio |

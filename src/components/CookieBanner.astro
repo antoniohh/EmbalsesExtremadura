@@ -220,15 +220,15 @@ import { withBase, COOKIE_STORAGE_KEY } from "../lib/site";
   }
 </style>
 
-<script define:vars={{ storageKey: COOKIE_STORAGE_KEY }}>
+<script>
   (function () {
-    const STORAGE_KEY = storageKey;
+    const STORAGE_KEY = "embalses_extremadura_cookie_consent";
     const banner = document.getElementById("cookie-banner");
     const modal = document.getElementById("cookie-modal");
-    const modalBox = modal?.querySelector(".cookie-modal-box");
-    const analyticsSwitch = document.getElementById("cookie-switch-analytics");
+    const modalBox = modal?.querySelector(".cookie-modal-box") as HTMLElement | null;
+    const analyticsSwitch = document.getElementById("cookie-switch-analytics") as HTMLInputElement | null;
 
-    const getConsent = () => {
+    const getConsent = (): string | null => {
       try {
         return localStorage.getItem(STORAGE_KEY);
       } catch {
@@ -236,23 +236,26 @@ import { withBase, COOKIE_STORAGE_KEY } from "../lib/site";
       }
     };
 
-    const applyConsent = (isGranted) => {
+    const applyConsent = (isGranted: boolean) => {
       const state = isGranted ? "granted" : "denied";
       try {
         localStorage.setItem(STORAGE_KEY, state);
       } catch {}
 
-      if (typeof window.gtag === "function") {
-        window.gtag("consent", "update", {
+      if (typeof (window as any).gtag === "function") {
+        (window as any).gtag("consent", "update", {
           analytics_storage: state,
           ad_storage: state,
           ad_user_data: state,
           ad_personalization: state,
         });
+        if (isGranted) {
+          (window as any).gtag("event", "page_view");
+        }
       }
 
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
+      const dataLayer = ((window as any).dataLayer = (window as any).dataLayer || []);
+      dataLayer.push({
         event: "consent_update",
         consent_state: state,
       });
@@ -328,7 +331,7 @@ import { withBase, COOKIE_STORAGE_KEY } from "../lib/site";
     });
 
     document.addEventListener("click", (e) => {
-      const target = e.target;
+      const target = e.target as HTMLElement | null;
       const trigger = target?.closest("[data-cookie-open-modal],[data-open-cookie-preferences]");
       if (trigger) {
         e.preventDefault();
