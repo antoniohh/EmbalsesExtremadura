@@ -2,6 +2,17 @@
 
 Todas las versiones relevantes de **Embalses de Extremadura**. El proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [1.1.1] — 2026-11-13
+
+Actualización de la configuración de analítica web: integración del ID de medición oficial de Google Analytics 4 (`G-MK7WEP5HN0`) con el cargador estándar `gtag/js` y Google Consent Mode v2, alineado con la arquitectura de *Luz Extremadura* y *Combustible Extremadura*.
+
+### Cambiado
+
+- **Actualización de Google Analytics 4 ([`src/lib/site.ts`](src/lib/site.ts) y [`src/layouts/BaseLayout.astro`](src/layouts/BaseLayout.astro))**:
+  - Establecido el ID de medición oficial `G-MK7WEP5HN0` en sustitución del provisional.
+  - Estandarizado el script asíncrono a `https://www.googletagmanager.com/gtag/js?id=${GA_ID}` idéntico a las implementaciones activas en la red.
+  - Mantenimiento estricto del Google Consent Mode v2 con bloqueo regionalizado por defecto en el EEE y sincronización instantánea de consentimiento.
+
 ## [1.1.0] — 2026-11-13
 
 Versión de modernización arquitectónica a Astro 7 puro: eliminación completa de dependencias de React e islas de hidratación, integración de la barra de red responsive y enlazado SEO entre proyectos, migración a Google Analytics 4 (`G-PT3SNCV5`) con Consent Mode v2, automatización de despliegue con cron semanal optimizado para los martes por la noche y resolución integral de la indexación y validación de propiedad en Google Search Console.

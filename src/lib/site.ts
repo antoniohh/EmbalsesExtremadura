@@ -5,7 +5,7 @@ export const SITE_DESCRIPTION =
   "Estado de los embalses de Extremadura: nivel de agua, capacidad, variación semanal e histórico con datos oficiales del MITECO.";
 export const AUTHOR_NAME = "Antonio Horrillo";
 export const AUTHOR_URL = "https://antoniohorrillo.com";
-export const GA_ID = "G-PT3SNCV5";
+export const GA_ID = "G-MK7WEP5HN0";
 export const COOKIE_STORAGE_KEY = "embalses_extremadura_cookie_consent";
 
 export const SITE_KEYWORDS = [

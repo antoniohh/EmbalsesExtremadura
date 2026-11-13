@@ -45,15 +45,15 @@ check('home 42 cards', (await page.locator('#embalses article').count()) === 42,
 const search = page.getByLabel('Buscar embalse')
 await search.fill('serena')
 await page.waitForTimeout(700)
-check('search hydrates', (await page.locator('#embalses article').count()) === 1)
+check('search hydrates', (await page.locator('#embalses article:visible').count()) === 1)
 check('search url', page.url().includes('q=serena'))
 await page.getByRole('button', { name: 'Limpiar filtros' }).first().click()
 await page.waitForTimeout(500)
-check('clear filters', (await page.locator('#embalses article').count()) === 42)
+check('clear filters', (await page.locator('#embalses article:visible').count()) === 42)
 
 await page.getByRole('button', { name: 'Badajoz', exact: true }).click()
 await page.waitForTimeout(500)
-check('province Badajoz', (await page.locator('#embalses article').count()) === 23, String(await page.locator('#embalses article').count()))
+check('province Badajoz', (await page.locator('#embalses article:visible').count()) === 23, String(await page.locator('#embalses article:visible').count()))
 await page.getByRole('button', { name: 'Limpiar filtros' }).first().click()
 await page.waitForTimeout(400)
 

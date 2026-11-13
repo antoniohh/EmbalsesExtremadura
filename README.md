@@ -42,7 +42,7 @@ Aplicación web estática (SSG en Astro 7 puro sin dependencias de React) para l
 7. **SEO Técnico, PWA y Privacidad (RGPD / AEPD):**
    - Marcado estructurado Schema.org `@graph` exhaustivo (`WebSite`, `WebPage`, `Dataset`, `BreadcrumbList`, `FAQPage`).
    - Inclusión de `.nojekyll` en `public/` para asegurar que GitHub Pages sirve correctamente todos los activos estáticos sin filtrado de Jekyll.
-   - Cumplimiento estricto de privacidad mediante **Google Consent Mode v2**: bloqueo analítico por defecto para el Espacio Económico Europeo (EEE), medición oficial con Google Analytics 4 (`G-PT3SNCV5`), componente `CookieBanner.astro` con modal accesible y página dedicada de [Política de Cookies](/cookies/).
+   - Cumplimiento estricto de privacidad mediante **Google Consent Mode v2**: bloqueo analítico por defecto para el Espacio Económico Europeo (EEE), medición oficial con Google Analytics 4 (`G-MK7WEP5HN0`), componente `CookieBanner.astro` con modal accesible y página dedicada de [Política de Cookies](/cookies/).
    - Instalación móvil (PWA) con banner deslizante (`InstallPrompt.astro`), Web App Manifest (`site.webmanifest`) y Service Worker (`sw.js`) con soporte offline.
 
 ---
@@ -200,11 +200,12 @@ El proyecto está configurado para publicarse de forma automática bajo el domin
 
 ## 📦 Control de Versiones
 
-Versión actual: **1.1.0** · [Historial completo en CHANGELOG.md](CHANGELOG.md)
+Versión actual: **1.1.1** · [Historial completo en CHANGELOG.md](CHANGELOG.md)
 
 | Versión | Fecha | Cambios principales |
 |---|---|---|
-| **1.1.0** | 2026-11-13 | Transformación completa a Astro 7 puro (eliminación de React 19, islas e inyección de props), barra de red responsive `NetworkBar.astro`, enlazado SEO en pie de página con Luz, Combustible y GlucoLuna, migración a Google Analytics 4 (`G-PT3SNCV5`) con Consent Mode v2, cron semanal ajustado a los martes por la noche (`35 20 * * 2`), retirada de lectura en tiempo real y soporte `.nojekyll` para indexación impecable en GSC |
+| **1.1.1** | 2026-11-13 | Actualización de la etiqueta de Google Analytics 4 (`G-MK7WEP5HN0`) con carga estándar mediante `gtag/js` alineada con Luz y Combustible Extremadura |
+| **1.1.0** | 2026-11-13 | Transformación completa a Astro 7 puro (eliminación de React 19, islas e inyección de props), barra de red responsive `NetworkBar.astro`, enlazado SEO en pie de página con Luz, Combustible y GlucoLuna, migración a Google Analytics 4 con Consent Mode v2, cron semanal ajustado a los martes por la noche (`35 20 * * 2`), retirada de lectura en tiempo real y soporte `.nojekyll` para indexación impecable en GSC |
 | **1.0.3** | 2026-11-10 | Corrección de microcopia («lleno» en lugar de «llenado») en tarjetas de embalse y reestructuración de la ficha de embalse para eliminar espacios en blanco y equilibrar la rejilla de escritorio |
 | **1.0.2** | 2026-11-10 | Supresión de la sección y página de metodología, simplificación del pie de página (retirada de columna «Datos» redundante) y consolidación de la atribución a fuentes oficiales |
 | **1.0.1** | 2026-11-10 | Eliminación del juego/quiz («El reto del agua») en portada para enfocar la experiencia en la utilidad pública directa y aligerar el bundle JavaScript |

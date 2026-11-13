@@ -33,7 +33,7 @@ Este documento define las reglas operativas, de arquitectura y de publicación d
 - **Dominio de producción:** `https://embalses.antoniohorrillo.com` (configurado en `public/CNAME`, `astro.config.mjs` y `src/lib/site.ts`)
 - **Repositorio:** `https://github.com/antoniohh/EmbalsesExtremadura`
 - **Autor:** Antonio Horrillo (`https://antoniohorrillo.com`)
-- **Google Analytics 4:** `G-PT3SNCV5` (definido en `src/lib/site.ts` y cargado en `src/layouts/BaseLayout.astro`)
+- **Google Analytics 4:** `G-MK7WEP5HN0` (definido en `src/lib/site.ts` y cargado en `src/layouts/BaseLayout.astro`)
 - **Clave LocalStorage de consentimiento:** `embalses_extremadura_cookie_consent`
 - **Stack:** Astro 7 puro (`output: "static"`, `trailingSlash: "always"`), Tailwind CSS v4 (`@tailwindcss/vite`), `@lucide/astro`, scripts Vanilla TypeScript cliente y TypeScript estricto sobre Node.js `>= 22.23.4` (`.nvmrc`). Sin dependencias ni islas de React.
 

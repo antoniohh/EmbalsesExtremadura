@@ -35,7 +35,7 @@ Consulta recurrente, semanal o durante episodios de sequía y crecidas. Un flujo
 - Ficha estática en `/embalse/:slug/` con migas de pan, métricas, histórico de hasta 60 semanas, comparación con la cuenca y párrafo SEO.
 - Gráfico histórico responsivo (`HistoricalChart.astro`) nativo en SVG con selectores de escala (4/12/52 semanas).
 - Barra de red (`NetworkBar.astro`) y enlazado SEO en pie de página conectando los 4 proyectos de la red de Antonio Horrillo.
-- Cumplimiento de privacidad RGPD/AEPD con Google Consent Mode v2 delimitado por región y Google Analytics 4 (`G-PT3SNCV5`): bloqueo estricto por defecto en el EEE y página dedicada en `/cookies/`.
+- Cumplimiento de privacidad RGPD/AEPD con Google Consent Mode v2 delimitado por región y Google Analytics 4 (`G-MK7WEP5HN0`): bloqueo estricto por defecto en el EEE y página dedicada en `/cookies/`.
 - Soporte PWA con Web App Manifest, Service Worker offline (`sw.js`) y banner instalable adaptado a móvil (`InstallPrompt.astro`).
 - La fuente original es el MITECO (CC BY 4.0); MapasDeEmbalses.es exige atribución pública del servicio de normalización y conservar la fuente original.
 - Los porcentajes agregados se calculan ponderando por capacidad, no como media simple.
