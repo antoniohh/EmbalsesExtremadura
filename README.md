@@ -1,6 +1,6 @@
 # Embalses de Extremadura
 
-[![Versión](https://img.shields.io/badge/versi%C3%B3n-1.1.0-0284c7?style=for-the-badge)](CHANGELOG.md)
+[![Versión](https://img.shields.io/badge/versi%C3%B3n-1.1.3-0284c7?style=for-the-badge)](CHANGELOG.md)
 [![Astro](https://img.shields.io/badge/Astro-7.4.2-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3.3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -89,32 +89,19 @@ EmbalsesExtremadura/
 │       ├── deploy.yml                             # Actualización de datos (martes 13:00 y 18:00 UTC) y deploy Pages
 │       └── release.yml                            # Empaquetado ZIP y publicación de releases en tags v*
 ├── public/
-│   ├── assets/
-│   │   ├── apple-touch-icon.png                   # Icono táctil iOS (180x180 px)
-│   │   ├── icon-192.png                           # Icono PWA para móvil (192x192 px)
-│   │   ├── icon-512.png                           # Icono PWA alta resolución (512x512 px)
-│   │   ├── og-image.png                           # Imagen Open Graph / Twitter Cards (1200x630 px)
-│   │   └── og-image.svg
-│   ├── datos/
-│   │   └── embalses.json                          # Distribución pública del dataset oficial en JSON
-│   ├── CNAME                                      # Dominio personalizado: embalses.antoniohorrillo.com
-│   ├── favicon.svg                                # Icono vectorial hídrico
-│   ├── robots.txt                                 # Directivas de rastreo para motores de búsqueda
-│   ├── site.webmanifest                           # Manifiesto PWA (modo standalone)
-│   ├── sitemap.xml                                # Mapa del sitio XML sincronizado con fecha del boletín
-│   └── sw.js                                      # Service Worker PWA (caché de assets y fallback offline)
-├── public/
 │   ├── .nojekyll                                  # Evita que GitHub Pages ignore carpetas con guión bajo (_astro/)
 │   ├── assets/
 │   │   ├── apple-touch-icon.png                   # Icono táctil iOS (180x180 px)
+│   │   ├── favicon.svg                            # Isotipo vectorial hídrico de alta precisión
 │   │   ├── icon-192.png                           # Icono PWA para móvil (192x192 px)
 │   │   ├── icon-512.png                           # Icono PWA alta resolución (512x512 px)
-│   │   ├── og-image.png                           # Imagen Open Graph / Twitter Cards (1200x630 px)
-│   │   └── og-image.svg
+│   │   ├── logo.svg                               # Logotipo horizontal vectorial con marca denominativa
+│   │   └── og-image.png                           # Tarjeta social Open Graph / Twitter Cards (1200x630 px)
 │   ├── datos/
 │   │   └── embalses.json                          # Distribución pública del dataset oficial en JSON
 │   ├── CNAME                                      # Dominio personalizado: embalses.antoniohorrillo.com
-│   ├── favicon.svg                                # Icono vectorial hídrico
+│   ├── favicon.ico                                # Favicon multirresolución (16/32/48 px)
+│   ├── favicon.svg                                # Icono vectorial hídrico principal
 │   ├── robots.txt                                 # Directivas de rastreo para motores de búsqueda
 │   ├── site.webmanifest                           # Manifiesto PWA (modo standalone)
 │   ├── sitemap.xml                                # Mapa del sitio XML sincronizado con fecha del boletín
@@ -123,15 +110,27 @@ EmbalsesExtremadura/
 │   ├── RELEASE_NOTES_v1.0.0.md                    # Notas y características de la versión 1.0.0
 │   ├── RELEASE_NOTES_v1.0.1.md                    # Notas de la versión 1.0.1 (eliminación de quiz)
 │   ├── RELEASE_NOTES_v1.0.2.md                    # Notas de la versión 1.0.2 (supresión de metodología)
-│   ├── RELEASE_NOTES_v1.1.0.md                    # Notas de la versión 1.1.0 (Astro puro, GA4 y cron mensual)
+│   ├── RELEASE_NOTES_v1.0.3.md                    # Notas de la versión 1.0.3 (microcopia y rejilla)
+│   ├── RELEASE_NOTES_v1.1.0.md                    # Notas de la versión 1.1.0 (Astro puro, GA4 y cron semanal)
+│   ├── RELEASE_NOTES_v1.1.1.md                    # Notas de la versión 1.1.1 (ID oficial GA4)
+│   ├── RELEASE_NOTES_v1.1.2.md                    # Notas de la versión 1.1.2 (corrección GA4, consent mode y GSC)
+│   ├── RELEASE_NOTES_v1.1.3.md                    # Notas de la versión 1.1.3 (renovación gráfica e iconos)
 │   ├── embalses-extremadura-v1.0.0.zip            # Paquete precompilado de producción v1.0.0
 │   ├── embalses-extremadura-v1.0.0.zip.sha256     # Checksum SHA-256 v1.0.0
 │   ├── embalses-extremadura-v1.0.1.zip            # Paquete precompilado de producción v1.0.1
 │   ├── embalses-extremadura-v1.0.1.zip.sha256     # Checksum SHA-256 v1.0.1
 │   ├── embalses-extremadura-v1.0.2.zip            # Paquete precompilado de producción v1.0.2
 │   ├── embalses-extremadura-v1.0.2.zip.sha256     # Checksum SHA-256 v1.0.2
+│   ├── embalses-extremadura-v1.0.3.zip            # Paquete precompilado de producción v1.0.3
+│   ├── embalses-extremadura-v1.0.3.zip.sha256     # Checksum SHA-256 v1.0.3
 │   ├── embalses-extremadura-v1.1.0.zip            # Paquete precompilado de producción v1.1.0
-│   └── embalses-extremadura-v1.1.0.zip.sha256     # Checksum SHA-256 v1.1.0
+│   ├── embalses-extremadura-v1.1.0.zip.sha256     # Checksum SHA-256 v1.1.0
+│   ├── embalses-extremadura-v1.1.1.zip            # Paquete precompilado de producción v1.1.1
+│   ├── embalses-extremadura-v1.1.1.zip.sha256     # Checksum SHA-256 v1.1.1
+│   ├── embalses-extremadura-v1.1.2.zip            # Paquete precompilado de producción v1.1.2
+│   ├── embalses-extremadura-v1.1.2.zip.sha256     # Checksum SHA-256 v1.1.2
+│   ├── embalses-extremadura-v1.1.3.zip            # Paquete precompilado de producción v1.1.3
+│   └── embalses-extremadura-v1.1.3.zip.sha256     # Checksum SHA-256 v1.1.3
 ├── scripts/
 │   ├── capture.mjs                                # Script de capturas Playwright para revisión de diseño
 │   ├── fetch-data.mjs                             # Extracción de datos desde MapasDeEmbalses.es y generación de sitemap
@@ -200,10 +199,11 @@ El proyecto está configurado para publicarse de forma automática bajo el domin
 
 ## 📦 Control de Versiones
 
-Versión actual: **1.1.2** · [Historial completo en CHANGELOG.md](CHANGELOG.md)
+Versión actual: **1.1.3** · [Historial completo en CHANGELOG.md](CHANGELOG.md)
 
 | Versión | Fecha | Cambios principales |
-|---|---|---|
+|---|---|---|---|
+| **1.1.3** | 2026-11-13 | Renovación integral de recursos gráficos, isotipo vectorial SVG (`Logo.astro`, `favicon.svg`, `logo.svg`), familia de iconos PWA/móvil de alta resolución (`icon-512.png`, `icon-192.png`, `apple-touch-icon.png`, `favicon.ico`) y nueva tarjeta social Open Graph (`og-image.png`) estilo observatorio de datos |
 | **1.1.2** | 2026-11-13 | Corrección de Google Analytics 4 (`window.gtag` accesible y literal `G-MK7WEP5HN0`), actualización reactiva de Google Consent Mode v2 con envío de `page_view` tras consentimiento y soporte para verificación en Google Search Console |
 | **1.1.1** | 2026-11-13 | Actualización de la etiqueta de Google Analytics 4 (`G-MK7WEP5HN0`) con carga estándar mediante `gtag/js` alineada con Luz y Combustible Extremadura |
 | **1.1.0** | 2026-11-13 | Transformación completa a Astro 7 puro (eliminación de React 19, islas e inyección de props), barra de red responsive `NetworkBar.astro`, enlazado SEO en pie de página con Luz, Combustible y GlucoLuna, migración a Google Analytics 4 con Consent Mode v2, cron semanal ajustado a los martes por la noche (`35 20 * * 2`), retirada de lectura en tiempo real y soporte `.nojekyll` para indexación impecable en GSC |

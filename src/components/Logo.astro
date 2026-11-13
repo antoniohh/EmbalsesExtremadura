@@ -4,28 +4,124 @@ interface Props {
 }
 
 const { class: className = "h-9 w-9" } = Astro.props;
+const uid = `emb-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
-<svg viewBox="0 0 64 64" class={className} aria-hidden="true" focusable="false">
-  <rect width="64" height="64" rx="18" fill="#082f49" />
+<svg
+  viewBox="0 0 64 64"
+  fill="none"
+  class={className}
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <radialGradient id={`${uid}-bg`} cx="50%" cy="38%" r="65%">
+      <stop offset="0%" stop-color="#0c3b5e" />
+      <stop offset="55%" stop-color="#061d33" />
+      <stop offset="100%" stop-color="#030914" />
+    </radialGradient>
+    <linearGradient id={`${uid}-border`} x1="32" y1="0" x2="32" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.75" />
+    </linearGradient>
+    <linearGradient id={`${uid}-drop`} x1="25" y1="11" x2="43" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#67e8f9" />
+      <stop offset="38%" stop-color="#22d3ee" />
+      <stop offset="75%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#1e40af" />
+    </linearGradient>
+    <linearGradient id={`${uid}-rim`} x1="22" y1="11" x2="42" y2="51" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#cffafe" />
+      <stop offset="50%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id={`${uid}-shine`} x1="24" y1="15" x2="29" y2="33" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id={`${uid}-arc`} x1="12" y1="22" x2="52" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#67e8f9" />
+      <stop offset="55%" stop-color="#22d3ee" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0.35" />
+    </linearGradient>
+    <clipPath id={`${uid}-clip`}>
+      <path d="M32 10.5C32 10.5 47.5 27.2 47.5 36.8C47.5 45.4 40.6 51.5 32 51.5C23.4 51.5 16.5 45.4 16.5 36.8C16.5 27.2 32 10.5 32 10.5Z" />
+    </clipPath>
+  </defs>
+
+  <rect width="64" height="64" rx="14.5" fill={`url(#${uid}-bg)`} />
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="13.75" stroke={`url(#${uid}-border)`} stroke-width="1.5" />
+
   <path
-    d="M32 12c7.3 8.7 11.5 14.1 11.5 19.6a11.5 11.5 0 1 1-23 0C20.5 26.1 24.7 20.7 32 12Z"
-    fill="#22d3ee"
-  />
-  <path
-    d="M10 43c6.5-4.2 12-4.2 18.5 0s12 4.2 18.5 0 7 0 7 0"
-    fill="none"
-    stroke="#fff"
-    stroke-width="3.2"
+    d="M27.2 15.6A19.5 19.5 0 1 0 36.8 15.6"
+    stroke={`url(#${uid}-arc)`}
+    stroke-width="1.6"
     stroke-linecap="round"
-    opacity=".95"
   />
+
   <path
-    d="M10 51c6.5-4.2 12-4.2 18.5 0s12 4.2 18.5 0 7 0 7 0"
-    fill="none"
-    stroke="#fff"
-    stroke-width="3.2"
-    stroke-linecap="round"
-    opacity=".55"
+    d="M32 10.5C32 10.5 47.5 27.2 47.5 36.8C47.5 45.4 40.6 51.5 32 51.5C23.4 51.5 16.5 45.4 16.5 36.8C16.5 27.2 32 10.5 32 10.5Z"
+    fill={`url(#${uid}-drop)`}
+  />
+
+  <path
+    d="M31.2 13.5C27.5 19.2 21.2 27.8 20.5 33.2C20.1 36.2 22.8 36.8 24.8 33.8C27.2 30.2 30.2 21.4 31.2 13.5Z"
+    fill={`url(#${uid}-shine)`}
+  />
+
+  <g clip-path={`url(#${uid}-clip)`}>
+    <path
+      d="M15 34.2H29.4C30.8 41.2 35.8 45.2 48.5 41.5V53H15V34.2Z"
+      fill="#06223a"
+      fill-opacity="0.72"
+    />
+    <path
+      d="M30.5 38.2Q34.2 41.2 37.8 38.2Q41.5 41.2 45.2 38.2Q47.2 39.8 49 38.5"
+      stroke="#67e8f9"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M33.2 42.2Q36.8 44.8 40.2 42.2Q43.8 44.8 47.5 42.2"
+      stroke="#38bdf8"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M15.5 34.2H29.4C30.6 41.6 36.2 46.2 47.2 43.2"
+      stroke="#a5f3fc"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M16 36.8H27.2C28.8 43.8 34.8 48.2 45.5 46.5"
+      stroke="#38bdf8"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M24.2 36.8C25.6 43.5 30.8 48.8 41.2 49.5"
+      stroke="#38bdf8"
+      stroke-width="1.4"
+      stroke-linecap="round"
+    />
+    <path
+      d="M21 36.8C22.4 43.2 26.8 48.5 35.8 51"
+      stroke="#0284c7"
+      stroke-width="1.4"
+      stroke-linecap="round"
+    />
+  </g>
+
+  <path
+    d="M32 10.5C32 10.5 47.5 27.2 47.5 36.8C47.5 45.4 40.6 51.5 32 51.5C23.4 51.5 16.5 45.4 16.5 36.8C16.5 27.2 32 10.5 32 10.5Z"
+    stroke={`url(#${uid}-rim)`}
+    stroke-width="1.5"
+    stroke-linejoin="round"
   />
 </svg>

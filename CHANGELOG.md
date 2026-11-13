@@ -2,6 +2,23 @@
 
 Todas las versiones relevantes de **Embalses de Extremadura**. El proyecto sigue [Versionado Semántico](https://semver.org/lang/es/).
 
+## [1.1.3] — 2026-11-13
+
+Renovación integral de la identidad visual, isotipo vectorial, familia de iconos PWA/móvil y tarjeta social Open Graph generados con Nano Banana y trazado vectorial de alta precisión, alineando el diseño con el ecosistema de observatorios de datos (*Combustible Extremadura* y *Luz Extremadura*).
+
+### Añadido y Mejorado
+
+- **Nuevo Isotipo Vectorial e Identidad de Marca ([`src/components/Logo.astro`](src/components/Logo.astro), [`public/favicon.svg`](public/favicon.svg), [`public/assets/favicon.svg`](public/assets/favicon.svg) y [`public/assets/logo.svg`](public/assets/logo.svg))**:
+  - Rediseño completo del icono SVG en contenedor *squircle* con degradado radial abisal (`#0c3b5e` → `#030914`), reborde luminoso cian, arco de nivel hidrológico exterior, gota de agua volumétrica con brillo especular, coronación de presa con aliviadero estructural y olas del embalse.
+  - Identificadores de degradados y máscaras dinámicos por instancia en `Logo.astro` para permitir múltiples renderizados simultáneos en el DOM sin colisión de IDs SVG.
+  - Unificación de marca en el pie de página ([`src/components/Footer.astro`](src/components/Footer.astro)) sustituyendo el icono genérico de Lucide por el nuevo componente `<Logo />`.
+- **Familia de Iconos de Alta Resolución y PWA ([`public/assets/`](public/assets/) y [`public/favicon.ico`](public/favicon.ico))**:
+  - Nuevos iconos `icon-512.png` (`512×512` px), `icon-192.png` (`192×192` px), `apple-touch-icon.png` (`180×180` px) y `favicon.ico` multirresolución (`16×16`, `32×32`, `48×48` px) con recorte transparente sobre la silueta *squircle*.
+  - Enlace explícito a `favicon.ico` en [`src/layouts/BaseLayout.astro`](src/layouts/BaseLayout.astro) y declaración `"purpose": "any maskable"` en [`public/site.webmanifest`](public/site.webmanifest).
+- **Nueva Tarjeta Social Open Graph (`1200×630` px) ([`public/assets/og-image.png`](public/assets/og-image.png))**:
+  - Creatividad social con estética oscura de observatorio de datos, tarjeta 3D con el mapa hidrográfico de Extremadura (cuencas del Tajo y Guadiana), nodos luminosos de embalses, curva de evolución y distintivo oficial del MITECO.
+  - Eliminación del antiguo archivo intermedio `public/assets/og-image.svg`.
+
 ## [1.1.2] — 2026-11-13
 
 Corrección integral de la etiqueta de Google Analytics 4 (`gtag.js`), activación del flujo dinámico de Google Consent Mode v2 al interactuar con el banner de cookies y habilitación de soporte para verificación de propiedad en Google Search Console.
